@@ -7,7 +7,7 @@
 - [资料目录](https://bladeomo.github.io/sky/catalog.html)
 - [咖啡 · 个人资料](https://bladeomo.github.io/sky/coffee.html)
 - [原有首页](https://bladeomo.github.io/sky/)（咖啡页面，保留原入口）
-- [梧桐 · 个人资料](https://bladeomo.github.io/sky/wutong.html)（无音乐）
+- [梧桐 · 个人资料](https://bladeomo.github.io/sky/wutong.html)（含背景音乐）
 
 ## 文件说明
 
@@ -15,9 +15,10 @@
 | --- | --- |
 | `catalog.html` | 所有资料的统一目录 |
 | `coffee.html` | 咖啡个人资料，与当前首页内容一致 |
-| `wutong.html` | 梧桐个人资料，图片内嵌，无音乐 |
+| `wutong.html` | 梧桐个人资料，图片内嵌，支持背景音乐 |
 | `index.html` | 原有咖啡首页，保留原链接 |
 | `千年之后.mp3` | 咖啡页面配套音乐 |
+| `moshi-moshi.flac` | 梧桐背景音乐：Moshi Moshi (feat. 百足) |
 | `.nojekyll` | 静态网页直接发布 |
 
 ## 后续添加资料
