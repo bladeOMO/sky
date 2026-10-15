@@ -15,10 +15,11 @@
 | --- | --- |
 | `catalog.html` | 所有资料的统一目录 |
 | `coffee.html` | 咖啡个人资料，与当前首页内容一致 |
-| `wutong.html` | 梧桐个人资料，图片内嵌，支持背景音乐 |
+| `wutong.html` | 梧桐个人资料，图片独立缓存，支持背景音乐 |
 | `index.html` | 原有咖啡首页，保留原链接 |
 | `千年之后.mp3` | 咖啡页面配套音乐 |
-| `moshi-moshi.flac` | 梧桐背景音乐：Moshi Moshi (feat. 百足) |
+| `moshi-moshi.mp3` | 梧桐背景音乐的网页播放版本 |
+| `wutong-background.webp` / `wutong-avatar.webp` | 梧桐页面共用的压缩图片 |
 | `.nojekyll` | 静态网页直接发布 |
 
 ## 后续添加资料
