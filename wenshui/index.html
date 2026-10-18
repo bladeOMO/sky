@@ -16,13 +16,16 @@
 
 [hidden]{display:none!important}body.intro-pending{background:#fff}.intro{min-height:100vh;min-height:100svh;display:grid;place-items:center;background:#fff;padding:32px 24px}.intro-inner{text-align:center;display:flex;flex-direction:column;align-items:center;max-width:100%;padding-bottom:4vh}.intro-avatar{display:block;width:132px;height:132px;object-fit:cover;border-radius:50%;background:#262626}.intro-title{margin:30px 0 24px;font-size:22px;line-height:1.5;font-weight:550;letter-spacing:1px;color:#292929}.intro-options{display:flex;gap:14px;justify-content:center}.intro-option{min-width:108px;min-height:46px;padding:10px 25px;border-radius:25px;border:1px solid #e4e4e4;background:#fff;color:#555;font-size:15px;transition:background .2s,transform .2s}.intro-option:first-child{background:#292929;border-color:#292929;color:#fff}.intro-option:hover{background:#f1f1f1;transform:translateY(-2px)}.intro-option:first-child:hover{background:#444}.intro-option:focus-visible{outline:2px solid #666;outline-offset:4px}.shell.intro-entered{animation:introEnter .35s ease both}@keyframes introEnter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@media(max-width:520px){.intro-avatar{width:116px;height:116px}.intro-title{font-size:21px}.intro-option{min-width:104px}}@media(prefers-reduced-motion:reduce){.shell.intro-entered{animation:none}}
 </style>
-</head>
+<style id="image-theme">
+body.intro-pending{background:#191919}.intro{position:relative;background:#191919 url("intro-background.jpg") 62% center/cover no-repeat;isolation:isolate;overflow:hidden}.intro:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.12),rgba(255,255,255,.08));z-index:-1}.intro-inner{width:min(420px,100%);padding:46px 38px 42px;border-radius:30px;border:1px solid rgba(255,255,255,.65);background:linear-gradient(145deg,rgba(255,255,255,.8),rgba(255,255,255,.59));backdrop-filter:blur(18px) saturate(.8);-webkit-backdrop-filter:blur(18px) saturate(.8);box-shadow:0 24px 75px rgba(0,0,0,.23),inset 0 1px 0 rgba(255,255,255,.7)}.intro-avatar{border:2px solid rgba(255,255,255,.8);box-shadow:0 8px 25px rgba(0,0,0,.12)}.intro-title{color:#242424}.intro-option{background:rgba(255,255,255,.54);border-color:rgba(255,255,255,.8);backdrop-filter:blur(8px)}.intro-option:first-child{background:#292929;border-color:#292929}.content{background:#fff url("content-background.jpg") center top/100% auto repeat-y}.post{background:rgba(255,255,255,.82);border-color:rgba(255,255,255,.9);backdrop-filter:blur(1.5px);-webkit-backdrop-filter:blur(1.5px)}.soft-note{background:rgba(247,247,247,.88)}.avatar,.mini-avatar{object-position:center 36%}.page-footer{color:#8b8b8b;text-shadow:0 1px 3px #fff}
+@media(max-width:520px){.intro-inner{width:min(352px,100%);padding:38px 22px 36px;border-radius:26px}.intro{background-position:64% center}}
+</style></head>
 <body class="intro-pending">
 <audio id="background-music" autoplay loop preload="auto" playsinline aria-label="背景音乐：默间奏"><source src="mo-interlude.mp3" type="audio/mpeg"></audio>
 <section class="intro" id="intro" aria-labelledby="intro-title"><div class="intro-inner"><img class="intro-avatar" src="avatar.jpg" alt="温水的头像" width="132" height="132"><h2 class="intro-title" id="intro-title">你想靠近我吗</h2><div class="intro-options"><button type="button" class="intro-option" data-enter>想</button><button type="button" class="intro-option" data-enter>靠近</button></div></div></section>
 <main class="shell" id="profile-page" hidden>
  <header class="profile" id="profile">
-  <div class="identity"><img class="avatar" src="avatar.jpg" alt="温水的头像" width="108" height="108"><div><h1 class="name">温水</h1><div class="handle">@WenShui</div></div></div>
+  <div class="identity"><img class="avatar" src="profile-avatar.jpg" alt="温水的头像" width="108" height="108"><div><h1 class="name">温水</h1><div class="handle">@WenShui</div></div></div>
   <p class="bio">往事似水如痕</p>
   <ul class="attributes" aria-label="个人属性"><li>20</li><li>天蝎</li><li>le-p</li><li>INFP</li><li>八无</li></ul>
   <div class="group-row"><span class="group">中性音</span><span class="group">常驻团：晚恋｜素雪｜素持｜惊梦</span></div>
@@ -38,7 +41,7 @@
  <div class="content">
   <section class="panel" id="panel-xuelian" role="tabpanel" aria-labelledby="tab-xuelian" tabindex="0">
    <article class="post">
-    <div class="post-author"><img class="mini-avatar" src="avatar.jpg" alt="" width="42" height="42"><div><div class="author-line"><strong>温水</strong><span>@WenShui</span></div><div class="post-label">虐恋资料</div></div></div>
+    <div class="post-author"><img class="mini-avatar" src="profile-avatar.jpg" alt="" width="42" height="42"><div><div class="author-line"><strong>温水</strong><span>@WenShui</span></div><div class="post-label">虐恋资料</div></div></div>
     <div class="section-title"><h2>虐恋</h2><span class="section-index">01 / 04</span></div>
     <p class="collapse-tip">点击小标题展开，向下浏览全部内容</p>
     <details class="fold" open><summary><span class="summary-label"><span class="summary-num">01</span>风格</span></summary><div class="fold-body"><span class="sub-label">主风格</span><div class="wordlines">温柔刀 / 意识流<br>引导 / 若即若离 / 循序渐进<br>微文艺 / 多遗憾 / 安抚</div><span class="sub-label">副风格</span><div class="wordlines">水仙 / 逻辑 / 剖析 / 非常规</div></div></details>
@@ -64,7 +67,7 @@
   </section>
   <section class="panel" id="panel-binglian" role="tabpanel" aria-labelledby="tab-binglian" tabindex="0" hidden>
    <article class="post">
-    <div class="post-author"><img class="mini-avatar" src="avatar.jpg" alt="" width="42" height="42"><div><div class="author-line"><strong>温水</strong><span>@WenShui</span></div><div class="post-label">病恋资料 · 温病</div></div></div>
+    <div class="post-author"><img class="mini-avatar" src="profile-avatar.jpg" alt="" width="42" height="42"><div><div class="author-line"><strong>温水</strong><span>@WenShui</span></div><div class="post-label">病恋资料 · 温病</div></div></div>
     <div class="section-title"><h2>温病</h2><span class="section-index">02 / 04</span></div>
     <p class="collapse-tip">点击小标题展开，向下浏览全部内容</p>
     <details class="fold" open><summary><span class="summary-label"><span class="summary-num">01</span>风格</span></summary><div class="fold-body"><span class="sub-label">主风格</span><div class="wordlines">血腥 / 微擦 / 囚禁 / 低恋</div><span class="sub-label">副风格</span><div class="wordlines">小狗文学 / 文艺温 / 白骑士 / 伪救赎</div></div></details>
@@ -77,7 +80,7 @@
   </section>
   <section class="panel" id="panel-shudong" role="tabpanel" aria-labelledby="tab-shudong" tabindex="0" hidden>
    <article class="post">
-    <div class="post-author"><img class="mini-avatar" src="avatar.jpg" alt="" width="42" height="42"><div><div class="author-line"><strong>温水</strong><span>@WenShui</span></div><div class="post-label">树洞资料</div></div></div>
+    <div class="post-author"><img class="mini-avatar" src="profile-avatar.jpg" alt="" width="42" height="42"><div><div class="author-line"><strong>温水</strong><span>@WenShui</span></div><div class="post-label">树洞资料</div></div></div>
     <div class="section-title"><h2>树洞</h2><span class="section-index">03 / 04</span></div>
     <p class="collapse-tip">点击小标题展开，向下浏览全部内容</p>
     <details class="fold" open><summary><span class="summary-label"><span class="summary-num">01</span>风格与陪伴</span></summary><div class="fold-body"><div class="wordlines">共情｜洞察｜温柔<br>容器｜疏导｜解忧｜理智</div><div class="header-divider"></div><p>学业｜友情｜工作｜家庭｜爱情｜个人<br>均有经验，有适当心理学基础。</p><div class="soft-note"><p>无论你是痛苦，迷茫，冷静，还是不知所措，<br>我都可以解决。</p><p>你需要的不只是一个倾听者，还是一个决策者。</p></div></div></details>
@@ -87,7 +90,7 @@
   </section>
   <section class="panel" id="panel-jiaoxue" role="tabpanel" aria-labelledby="tab-jiaoxue" tabindex="0" hidden>
    <article class="post">
-    <div class="post-author"><img class="mini-avatar" src="avatar.jpg" alt="" width="42" height="42"><div><div class="author-line"><strong>温水</strong><span>@WenShui</span></div><div class="post-label">教学资料</div></div></div>
+    <div class="post-author"><img class="mini-avatar" src="profile-avatar.jpg" alt="" width="42" height="42"><div><div class="author-line"><strong>温水</strong><span>@WenShui</span></div><div class="post-label">教学资料</div></div></div>
     <div class="section-title"><h2>教学</h2><span class="section-index">04 / 04</span></div>
     <p class="collapse-tip">点击小标题展开，向下浏览全部内容</p>
     <details class="fold" open><summary><span class="summary-label"><span class="summary-num">01</span>个人经历</span></summary><div class="fold-body"><dl class="about-grid"><div><dt>入团时长</dt><dd>五年</dd></div><div><dt>目前状态</dt><dd>教学＋接单</dd></div><div><dt>所在陪玩团</dt><dd>晚恋｜素雪｜素持｜惊梦</dd></div><div><dt>所获成就</dt><dd>入圈无差评、无客诉</dd></div></dl><div class="soft-note">会安排好教学时间和接单时间，可以保证你在需要的时候能找到我。</div></div></details>
