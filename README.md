@@ -9,6 +9,8 @@
 - [原有首页](https://bladeomo.github.io/sky/)（咖啡页面，保留原入口）
 - [梧桐 · 个人资料](https://bladeomo.github.io/sky/wutong.html)（含背景音乐）
 
+- [温水 · 个人资料](https://bladeomo.github.io/sky/wenshui/)（含背景音乐）
+
 ## 文件说明
 
 | 文件 | 用途 |
@@ -16,6 +18,7 @@
 | `catalog.html` | 所有资料的统一目录 |
 | `coffee.html` | 咖啡个人资料，与当前首页内容一致 |
 | `wutong.html` | 梧桐个人资料，图片独立缓存，支持背景音乐 |
+| `wenshui/` | 温水个人资料，含虐恋、病恋、树洞、教学及背景音乐 |
 | `index.html` | 原有咖啡首页，保留原链接 |
 | `千年之后.mp3` | 咖啡页面配套音乐 |
 | `moshi-moshi.mp3` | 梧桐背景音乐的网页播放版本 |
