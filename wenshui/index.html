@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="温水 @WenShui｜往事似水如痕。虐恋、病恋、树洞与教学资料。">
+<title>温水 · 往事似水如痕</title>
+<style>
+:root{color-scheme:light;--ink:#202020;--muted:#969696;--tag:#f1f1f1;--line:#ededed;--paper:#fff;--canvas:#f7f7f7}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:72px}body{margin:0;background:var(--canvas);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.8}button,a{font:inherit}button{cursor:pointer}a{color:inherit}button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid #565656;outline-offset:5px}button{-webkit-tap-highlight-color:transparent}.shell{max-width:760px;margin:0 auto;min-height:100dvh;background:var(--paper);box-shadow:0 0 50px #00000003}.profile{padding:48px 36px 30px;background:white}.identity{display:flex;gap:25px;align-items:center}.avatar{display:block;width:108px;height:108px;border-radius:50%;object-fit:cover;background:#262626;flex:none}.name{font-size:32px;line-height:1.25;letter-spacing:-1px;margin:0 0 6px;font-weight:800}.handle{color:#999;font-size:18px;font-weight:550;letter-spacing:.2px}.bio{margin:28px 0 17px;font-size:18px;font-weight:550;letter-spacing:.3px}.attributes{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 9px;padding:0;list-style:none}.attributes li,.group{display:inline-flex;align-items:center;border-radius:100px;background:var(--tag);color:#606060;font-size:13px;line-height:1.5;font-weight:550;padding:7px 15px}.group-row{display:flex;flex-wrap:wrap;gap:8px}.group{white-space:normal}.stats{display:flex;flex-wrap:wrap;gap:25px;margin:23px 0 0;color:#666;font-size:16px;line-height:1.6}.stats strong{font-size:20px;font-weight:800;letter-spacing:-.5px;color:#1d1d1d;margin-right:5px}.tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));position:sticky;top:0;z-index:10;background:#fffffff5;backdrop-filter:blur(16px);border-bottom:1px solid #e7e7e7}.tab{position:relative;border:0;background:transparent;color:#aaa;font-size:17px;font-weight:700;min-height:67px;padding:18px 0;transition:color .18s}.tab:hover{color:#555}.tab[aria-selected="true"]{color:#222}.tab:after{content:"";position:absolute;bottom:-1px;left:20%;right:20%;height:3px;background:#252525;border-radius:2px;transform:scaleX(0);transition:transform .2s}.tab[aria-selected="true"]:after{transform:scaleX(1)}.content{background:#f7f7f7;padding:24px 24px 36px;min-height:420px}.panel[hidden]{display:none!important}.panel{animation:fade .22s ease}.post{background:white;border:1px solid #f0f0f0;border-radius:22px;padding:26px;box-shadow:0 8px 30px #00000002}.post-author{display:flex;align-items:center;gap:12px;margin-bottom:24px}.mini-avatar{width:42px;height:42px;border-radius:50%;object-fit:cover;flex:none}.author-line{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;line-height:1.5}.author-line strong{font-size:17px;font-weight:800}.author-line span{font-size:13px;color:#aaa}.post-label{font-size:13px;color:#868686;margin-top:1px;line-height:1.4}.section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.section-title h2{font-size:23px;letter-spacing:.3px;margin:0;line-height:1.4}.section-index{color:#bbb;font-size:11px;font-weight:600;letter-spacing:2px}.fold{border-bottom:1px solid var(--line)}.fold:first-of-type{border-top:1px solid var(--line)}.fold summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:18px 0;cursor:pointer;font-weight:700;font-size:15px;user-select:none}.fold summary::-webkit-details-marker{display:none}.summary-label{display:flex;align-items:center;gap:10px}.summary-num{font-size:10px;color:#b0b0b0;letter-spacing:1px;font-weight:500}.fold summary:after{content:"+";font-size:21px;font-weight:400;color:#aaa;line-height:1}.fold[open] summary:after{content:"−"}.fold-body{padding:0 0 22px;font-size:14px;color:#555;line-height:1.95;overflow-wrap:anywhere}.fold-body p{margin:0 0 10px}.fold-body p:last-child{margin-bottom:0}.wordlines{font-size:16px;color:#3e3e3e;font-weight:500;line-height:2.1;letter-spacing:.2px}.sub-label{display:block;font-size:12px;color:#999;font-weight:500;margin:18px 0 7px;letter-spacing:2px}.sub-label:first-child{margin-top:0}.soft-note{background:#f7f7f7;border-radius:12px;padding:13px 15px;font-size:13px;color:#777;line-height:1.85;margin:14px 0}.soft-note p{margin:0}.price-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:14px}.price-table caption{caption-side:top;text-align:left;font-weight:700;color:#333;font-size:14px;padding:0 0 8px}.price-table td{padding:11px 0;border-bottom:1px solid #f0f0f0;vertical-align:top}.price-table tr:last-child td{border-bottom:0}.price-table td:last-child{text-align:right;color:#222;font-weight:650;white-space:nowrap;padding-left:14px}.price-table td:first-child{padding-right:4px}.price-table .detail{display:block;color:#999;font-weight:400;font-size:12px}.extras{display:flex;flex-wrap:wrap;gap:7px 16px;font-size:12px;line-height:1.9;color:#777}.rules{margin:14px 0 0;padding-left:1.5em;color:#666;font-size:13px;line-height:1.95}.rules li{padding-left:4px;margin:0 0 13px}.rules li:last-child{margin-bottom:0}.read-notice{font-size:13px;color:#555;margin:0 0 14px!important;font-weight:600}.detail-link{display:flex;justify-content:space-between;align-items:center;gap:12px;text-decoration:none;border-radius:13px;padding:14px 17px;background:#262626;color:#fff;font-size:13px;font-weight:600;margin-top:23px;transition:background .18s,transform .18s}.detail-link:hover{background:#454545;transform:translateY(-1px)}.link-arrow{font-size:18px;font-weight:400;line-height:1}.link-note{color:#aaa;font-size:10px;line-height:1.5;margin:9px 0 0;text-align:center}.about-grid{margin:0}.about-grid div{display:grid;grid-template-columns:105px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid #f2f2f2}.about-grid div:last-child{border-bottom:0}.about-grid dt{color:#999}.about-grid dd{margin:0;color:#444}.lesson-tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.lesson-tags span{background:#f3f3f3;color:#707070;font-size:12px;border-radius:7px;padding:5px 9px}.reasons{padding-left:1.5em;margin:10px 0 0}.reasons li{padding-left:3px;margin:0 0 12px}.course-group{margin:0 0 22px}.course-group:last-child{margin-bottom:0}.group-course{padding:15px 0;border-bottom:1px solid #f0f0f0}.group-course:first-child{padding-top:0}.group-course:last-child{border-bottom:0;padding-bottom:0}.course-heading{display:flex;justify-content:space-between;gap:16px;align-items:baseline;margin:0 0 8px;color:#333;font-weight:700}.course-heading strong{white-space:nowrap;font-size:16px}.course-heading span{font-size:14px}.course-heading small{font-size:11px;color:#999;font-weight:400}.schedule{font-size:12px;color:#969696;margin-top:10px!important}.reminders{list-style:none;margin:0;padding:0;font-size:13px}.reminders li{padding:11px 0;border-bottom:1px solid #f0f0f0}.reminders li:last-child{border:0}.reminders .important{font-weight:650;color:#333}.page-footer{text-align:center;padding:25px 0 0;color:#b2b2b2;font-size:11px;letter-spacing:.4px}.page-footer span{margin:0 6px}.collapse-tip{font-size:11px;color:#aaa;margin:0 0 7px}.header-divider{width:24px;height:2px;background:#ddd;margin:16px 0}.teaching-note{font-size:12px;color:#929292;line-height:1.85}.panel:focus{outline:none}@keyframes fade{from{opacity:.3;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(min-width:900px){.shell{margin:42px auto;border:1px solid #ededed;border-radius:26px;overflow:clip;min-height:calc(100dvh - 84px)}.profile{padding-top:42px}}
+@media(max-width:520px){body{font-size:14px}.profile{padding:32px 22px 24px}.identity{gap:19px}.avatar{width:88px;height:88px}.name{font-size:28px}.handle{font-size:16px}.bio{font-size:16px;margin:24px 0 16px}.attributes{gap:7px}.attributes li,.group{font-size:12px;padding:6px 12px}.group-row{gap:7px}.stats{font-size:14px;gap:24px;margin-top:22px}.stats strong{font-size:18px}.tab{min-height:61px;font-size:16px;padding:17px 0}.content{padding:18px 14px 28px}.post{padding:22px 19px;border-radius:19px}.post-author{gap:10px;margin-bottom:23px}.author-line strong{font-size:16px}.author-line span{font-size:12px}.mini-avatar{width:38px;height:38px}.section-title h2{font-size:21px}.wordlines{font-size:15px}.fold-body{font-size:13px}.fold summary{padding:17px 0;font-size:14px}.about-grid div{grid-template-columns:83px 1fr;gap:10px}.extras{gap:6px 12px}.price-table{font-size:13px}.course-heading strong{font-size:15px}.rules{font-size:13px}.detail-link{padding:13px 15px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.panel{animation:none}*{transition:none!important}}
+.music-control{display:inline-flex;align-items:center;gap:7px;margin-top:18px;min-height:40px;border:1px solid #e9e9e9;border-radius:24px;background:#f7f7f7;padding:8px 13px;color:#777;font-size:12px;line-height:1.5}.music-control:hover{background:#eeeeee}.music-control[aria-pressed="true"]{color:#333}.music-control .note{font-size:15px}.music-control .music-action{color:#444;margin-left:5px}
+</style>
+</head>
+<body>
+<audio id="background-music" autoplay loop preload="auto" playsinline aria-label="背景音乐：默间奏"><source src="mo-interlude.mp3" type="audio/mpeg"></audio>
+<main class="shell">
+ <header class="profile" id="profile">
+  <div class="identity"><img class="avatar" src="avatar.jpg" alt="温水的头像" width="108" height="108"><div><h1 class="name">温水</h1><div class="handle">@WenShui</div></div></div>
+  <p class="bio">往事似水如痕</p>
+  <ul class="attributes" aria-label="个人属性"><li>20</li><li>天蝎</li><li>le-p</li><li>INFP</li><li>八无</li></ul>
+  <div class="group-row"><span class="group">中性音</span><span class="group">常驻团：晚恋｜素雪｜素持｜惊梦</span></div>
+  <div class="stats"><span><strong>52</strong>正在关注</span><span><strong>13.14k</strong>关注者</span></div>
+  <button class="music-control" id="music-control" type="button" aria-pressed="false" aria-label="播放背景音乐：默间奏"><span class="note" aria-hidden="true">♪</span><span>默间奏</span><span class="music-action" id="music-action">播放</span></button>
+ </header>
+ <nav class="tabs" role="tablist" aria-label="资料分类">
+  <button class="tab" id="tab-xuelian" role="tab" aria-selected="true" aria-controls="panel-xuelian" tabindex="0" data-tab="xuelian">虐恋</button>
+  <button class="tab" id="tab-binglian" role="tab" aria-selected="false" aria-controls="panel-binglian" tabindex="-1" data-tab="binglian">病恋</button>
+  <button class="tab" id="tab-shudong" role="tab" aria-selected="false" aria-controls="panel-shudong" tabindex="-1" data-tab="shudong">树洞</button>
+  <button class="tab" id="tab-jiaoxue" role="tab" aria-selected="false" aria-controls="panel-jiaoxue" tabindex="-1" data-tab="jiaoxue">教学</button>
+ </nav>
+ <div class="content">
+  <section class="panel" id="panel-xuelian" role="tabpanel" aria-labelledby="tab-xuelian" tabindex="0">
+   <article class="post">
+    <div class="post-author"><img class="mini-avatar" src="avatar.jpg" alt="" width="42" height="42"><div><div class="author-line"><strong>温水</strong><span>@WenShui</span></div><div class="post-label">虐恋资料</div></div></div>
+    <div class="section-title"><h2>虐恋</h2><span class="section-index">01 / 04</span></div>
+    <p class="collapse-tip">点击小标题展开，向下浏览全部内容</p>
+    <details class="fold" open><summary><span class="summary-label"><span class="summary-num">01</span>风格</span></summary><div class="fold-body"><span class="sub-label">主风格</span><div class="wordlines">温柔刀 / 意识流<br>引导 / 若即若离 / 循序渐进<br>微文艺 / 多遗憾 / 安抚</div><span class="sub-label">副风格</span><div class="wordlines">水仙 / 逻辑 / 剖析 / 非常规</div></div></details>
+    <details class="fold"><summary><span class="summary-label"><span class="summary-num">02</span>价格</span></summary><div class="fold-body"><table class="price-table"><caption>虐恋</caption><tbody><tr><td>0.5 小时</td><td>25r</td></tr><tr><td>1 小时</td><td>45r</td></tr></tbody></table><div class="extras"><span>头牌 ＋5</span><span>凌晨 ＋3</span><span>围观 ＋3</span><span>卡装扮 ＋3</span><span>水仙 ＋10</span><span>替身 ＋10</span><span>单口 ＋5</span><span>虐物 ＋8</span></div></div></details>
+    <details class="fold"><summary><span class="summary-label"><span class="summary-num">03</span>须知</span></summary><div class="fold-body"><p class="read-notice">『下单默认已读须知』</p><ol class="rules">
+     <li>请宝宝提前说好雷点喜好，以防我们的约会中出现不愉快，不对任何盲雷负责哦。</li>
+     <li>当在这场约会中我们也许并不只是爱人关系。只要你需要，我可以成为任何人。</li>
+     <li>迟到不补时间，超过十分钟会另外安排约会时间，若是宝宝连续三次放鸽，默认送单哦！</li>
+     <li>约会过程中的一切录屏，截图，口头复述均不可转载，若有需要提前告知，一旦发现十倍赔偿。</li>
+     <li>有任何不满宝宝可以告诉派派或者当场提出来，不要独自生闷气。</li>
+     <li>下单10min内可退款，但不要结束后私自在其他平台诋毁或恶意评价。</li>
+     <li>记住我们是恋人，躲避，排斥会降低体验感哦。</li>
+     <li>不要恶意搞怪，故意排斥，不然默认送单。</li>
+     <li>我们的约会可以有旁观者，但请不要过多打扰我们约会。如果和朋友聊天时间过长，默认送单。</li>
+     <li>会有记录过程的习惯，若小宝介意可提前说明。</li>
+     <li>每个小宝只会接两次，过多的了解只会让我们丧失新鲜感，走向厌倦。</li>
+     <li>主风格为温柔刀，淡淡的刺痛感，若是需要强烈情感可能我们并不太适合哦！</li>
+     <li>有时遇到单内满意的话术会进行翻拍处理，并不会泄露小宝的任何隐私，若小宝介意可提前告知。</li>
+     <li>婉拒男生，恶意捉弄，抽象，毫无兴趣只是为了好玩，退单率高的小宝，用时间来试错太过奢靡。</li>
+    </ol></div></details>
+    <a class="detail-link" href="https://www.kdocs.cn/l/ckefFifiEoKg" target="_blank" rel="noopener noreferrer"><span>查看虐恋完整资料</span><span class="link-arrow" aria-hidden="true">↗</span></a><p class="link-note">将在新页面打开金山文档</p>
+   </article>
+  </section>
+  <section class="panel" id="panel-binglian" role="tabpanel" aria-labelledby="tab-binglian" tabindex="0" hidden>
+   <article class="post">
+    <div class="post-author"><img class="mini-avatar" src="avatar.jpg" alt="" width="42" height="42"><div><div class="author-line"><strong>温水</strong><span>@WenShui</span></div><div class="post-label">病恋资料 · 温病</div></div></div>
+    <div class="section-title"><h2>温病</h2><span class="section-index">02 / 04</span></div>
+    <p class="collapse-tip">点击小标题展开，向下浏览全部内容</p>
+    <details class="fold" open><summary><span class="summary-label"><span class="summary-num">01</span>风格</span></summary><div class="fold-body"><span class="sub-label">主风格</span><div class="wordlines">血腥 / 微擦 / 囚禁 / 低恋</div><span class="sub-label">副风格</span><div class="wordlines">小狗文学 / 文艺温 / 白骑士 / 伪救赎</div></div></details>
+    <details class="fold"><summary><span class="summary-label"><span class="summary-num">02</span>价格</span></summary><div class="fold-body"><table class="price-table"><caption>病恋</caption><tbody><tr><td>0.5 小时</td><td>22r</td></tr><tr><td>1 小时</td><td>40r</td></tr></tbody></table><div class="extras"><span>头牌 ＋5</span><span>凌晨 ＋3</span><span>围观 ＋3</span><span>卡装扮 ＋3</span></div></div></details>
+    <details class="fold"><summary><span class="summary-label"><span class="summary-num">03</span>必读须知</span></summary><div class="fold-body"><p class="read-notice">★ 必读须知 · 下单默认已读须知</p><ol class="rules">
+     <li>请在我们约会之前告诉我你的喜好，雷点和称呼。</li><li>体验十分钟，不行请说安全词“撤退”。</li><li>记住我们是恋人，躲避，排斥会降低体验感哦。</li><li>我们的约会可以有旁观者，但请不要过多打扰我们约会。如果和朋友聊天时间过长，默认送单。</li><li>不要恶意搞怪，故意排斥，不然默认送单。</li><li>禁止侮辱贬低我哦，我们是恋人请记住这一点。</li><li>禁止录屏，截屏，口头转述等，如有需要，提前告知，但禁止转载，否则十倍赔偿。本人拒接黄暴单，特殊病物单。</li><li>会有记录过程的习惯，若小宝介意可提前说明。</li><li>每个小宝只会接两次，过多的了解只会让我们丧失新鲜感，走向厌倦。</li><li>有时遇到单内满意的话术会进行翻拍处理，并不会泄露小宝的任何隐私，若小宝介意可提前告知。</li><li>婉拒男生，恶意捉弄，抽象，毫无兴趣只是为了好玩，退单率高的小宝，用时间来试错太过奢靡。</li>
+    </ol></div></details>
+    <a class="detail-link" href="https://www.kdocs.cn/l/cd6MUSZsr6T2" target="_blank" rel="noopener noreferrer"><span>查看病恋完整资料</span><span class="link-arrow" aria-hidden="true">↗</span></a><p class="link-note">将在新页面打开金山文档</p>
+   </article>
+  </section>
+  <section class="panel" id="panel-shudong" role="tabpanel" aria-labelledby="tab-shudong" tabindex="0" hidden>
+   <article class="post">
+    <div class="post-author"><img class="mini-avatar" src="avatar.jpg" alt="" width="42" height="42"><div><div class="author-line"><strong>温水</strong><span>@WenShui</span></div><div class="post-label">树洞资料</div></div></div>
+    <div class="section-title"><h2>树洞</h2><span class="section-index">03 / 04</span></div>
+    <p class="collapse-tip">点击小标题展开，向下浏览全部内容</p>
+    <details class="fold" open><summary><span class="summary-label"><span class="summary-num">01</span>风格与陪伴</span></summary><div class="fold-body"><div class="wordlines">共情｜洞察｜温柔<br>容器｜疏导｜解忧｜理智</div><div class="header-divider"></div><p>学业｜友情｜工作｜家庭｜爱情｜个人<br>均有经验，有适当心理学基础。</p><div class="soft-note"><p>无论你是痛苦，迷茫，冷静，还是不知所措，<br>我都可以解决。</p><p>你需要的不只是一个倾听者，还是一个决策者。</p></div></div></details>
+    <details class="fold"><summary><span class="summary-label"><span class="summary-num">02</span>须知</span></summary><div class="fold-body"><p class="read-notice">下单默认已读须知</p><ol class="rules"><li>请宝宝提前说好雷点喜好，以防我们的约会中出现不愉快，不对任何盲雷负责哦。</li><li>相遇过程中的一切录屏，截图，口头复述均不可转载，若有需要提前告知，一旦发现十倍赔偿。</li><li>有任何不满宝宝可以告诉派派或者当场提出来，不要独自生闷气。</li><li>下单10min内可退款，但不要结束后私自在其他平台诋毁或恶意评价。</li><li>不要恶意搞怪，故意排斥，不然默认送单。</li><li>我们的相处可以有旁观者，但请不要过多打扰我们约会。如果和朋友聊天时间过长，默认送单。</li></ol></div></details>
+    <a class="detail-link" href="https://www.kdocs.cn/l/cbAdGJDTap9M" target="_blank" rel="noopener noreferrer"><span>查看树洞完整资料</span><span class="link-arrow" aria-hidden="true">↗</span></a><p class="link-note">将在新页面打开金山文档</p>
+   </article>
+  </section>
+  <section class="panel" id="panel-jiaoxue" role="tabpanel" aria-labelledby="tab-jiaoxue" tabindex="0" hidden>
+   <article class="post">
+    <div class="post-author"><img class="mini-avatar" src="avatar.jpg" alt="" width="42" height="42"><div><div class="author-line"><strong>温水</strong><span>@WenShui</span></div><div class="post-label">教学资料</div></div></div>
+    <div class="section-title"><h2>教学</h2><span class="section-index">04 / 04</span></div>
+    <p class="collapse-tip">点击小标题展开，向下浏览全部内容</p>
+    <details class="fold" open><summary><span class="summary-label"><span class="summary-num">01</span>个人经历</span></summary><div class="fold-body"><dl class="about-grid"><div><dt>入团时长</dt><dd>五年</dd></div><div><dt>目前状态</dt><dd>教学＋接单</dd></div><div><dt>所在陪玩团</dt><dd>晚恋｜素雪｜素持｜惊梦</dd></div><div><dt>所获成就</dt><dd>入圈无差评、无客诉</dd></div></dl><div class="soft-note">会安排好教学时间和接单时间，可以保证你在需要的时候能找到我。</div></div></details>
+    <details class="fold"><summary><span class="summary-label"><span class="summary-num">02</span>教学方式与特点</span></summary><div class="fold-body"><p>上课方式</p><div class="lesson-tags"><span>文字讲述</span><span>腾讯会议</span><span>线上模拟</span><span>作业检查</span></div><span class="sub-label">为什么选择我做你的三恋教学老师</span><ol class="reasons"><li>永教包教会，靠自己理解摸清适合的风格，引导为主。</li><li>拒绝模板化，形成属于自己的思维模式。</li><li>任何问题在线回答，切身体会理解。</li><li>性格温和，不用担心害怕挨骂。</li><li>尊重任何人，尊重是相互的，你用什么态度我也会用什么态度。</li><li>不理解会反复讲解，通过不同方式去进行演练，直到你学会为止。</li></ol></div></details>
+    <details class="fold"><summary><span class="summary-label"><span class="summary-num">03</span>个人课程与价格</span></summary><div class="fold-body"><div class="course-group"><table class="price-table"><caption>病或虐恋教学</caption><tbody><tr><td>单课</td><td>50/h</td></tr><tr><td>周教</td><td>88r</td></tr><tr><td>月教</td><td>128r</td></tr><tr><td>单一风格永教</td><td>366r</td></tr><tr><td>永教<span class="detail">全风格</span></td><td>520r</td></tr></tbody></table></div><div class="course-group"><table class="price-table"><caption>病和虐教学</caption><tbody><tr><td>周教</td><td>158r</td></tr><tr><td>月教<span class="detail">单风格</span></td><td>306r</td></tr><tr><td>永教</td><td>888r</td></tr></tbody></table></div></div></details>
+    <details class="fold"><summary><span class="summary-label"><span class="summary-num">04</span>团体课程与价格</span></summary><div class="fold-body"><div class="group-course"><div class="course-heading"><span>周教</span><strong>260r</strong></div><p>包括截图复盘＋线上练习＋基础讲解＋问题答疑。</p><p class="schedule">每周一次线上会议 · 1h<br>每隔一天 1h 讲解 / 0.5h 线上练习</p><p class="teaching-note">每次会抽取不同的人进行线上练习。没有抽取到的宝宝会进行问题答疑；抽取到的宝宝会进行截图复盘，复盘在团内进行，公开讲解。</p></div><div class="group-course"><div class="course-heading"><span>月教 <small>每周 2 节课</small></span><strong>999r</strong></div><p>教学内容同上。每周一次线上会议，其他均为文字讲解，含 0.5h 线上练习。</p></div><div class="group-course"><div class="course-heading"><span>月教 <small>每周 4 节课</small></span><strong>1314r</strong></div><p>教学内容同上。</p></div><div class="group-course"><div class="course-heading"><span>永教 <small>每周 3 节课</small></span><strong>2333r</strong></div><p>教学内容同上，空闲时间可解答简单疑问。</p></div></div></details>
+    <details class="fold"><summary><span class="summary-label"><span class="summary-num">05</span>下单提醒</span></summary><div class="fold-body"><div class="soft-note"><strong>先体验，再选择</strong><br>试单：先体验一节课，50/h，验证我们是否契合。</div><ul class="reminders"><li>1v1 教学只招收 <strong>5 名学生</strong></li><li>1v1 教学期间不担任团教</li><li>团教期间不招收 1v1 学生</li><li class="important">下单后不予退款</li></ul></div></details>
+    <a class="detail-link" href="https://www.kdocs.cn/l/cfLXrblxFEan" target="_blank" rel="noopener noreferrer"><span>查看教学完整资料</span><span class="link-arrow" aria-hidden="true">↗</span></a><p class="link-note">将在新页面打开金山文档</p>
+   </article>
+  </section>
+  <footer class="page-footer">温水<span>·</span>往事似水如痕</footer>
+ </div>
+</main>
+<script>
+(()=>{
+ const audio=document.getElementById('background-music');
+ const button=document.getElementById('music-control');
+ const label=document.getElementById('music-action');
+ let wanted=true;
+ audio.volume=.6;
+ function sync(){const playing=!audio.paused&&!audio.ended;button.setAttribute('aria-pressed',String(playing));button.setAttribute('aria-label',(playing?'暂停':'播放')+'背景音乐：默间奏');label.textContent=playing?'暂停':'播放';}
+ function play(){if(!wanted)return;const pending=audio.play();if(pending)pending.then(()=>{if(!wanted)audio.pause();sync();}).catch(()=>{sync();if(wanted&&!audio.error)label.textContent='点击播放';});}
+ button.addEventListener('click',()=>{if(!audio.paused){wanted=false;audio.pause();}else{wanted=true;play();}sync();});
+ document.querySelector('.tabs').addEventListener('click',()=>{if(wanted&&audio.paused)play();});
+ audio.addEventListener('play',sync);audio.addEventListener('pause',sync);
+ audio.addEventListener('error',()=>{label.textContent='重试播放';});
+ play();window.addEventListener('load',()=>{if(wanted&&audio.paused)play();},{once:true});
+})();
+(()=>{
+ const tabs=[...document.querySelectorAll('[role="tab"]')];
+ const panels=[...document.querySelectorAll('[role="tabpanel"]')];
+ const keys=tabs.map(tab=>tab.dataset.tab);
+ function select(key,{focus=false,updateHash=true}={}){
+  if(!keys.includes(key))return;
+  const contentTop=document.querySelector('.tabs').getBoundingClientRect().top+window.scrollY;
+  const wasBelow=window.scrollY>contentTop;
+  tabs.forEach(tab=>{const active=tab.dataset.tab===key;tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1;if(active&&focus)tab.focus({preventScroll:true});});
+  panels.forEach(panel=>panel.hidden=panel.id!=='panel-'+key);
+  if(updateHash)history.replaceState(null,'','#'+key);
+  if(wasBelow)window.scrollTo({top:contentTop,behavior:'instant'});
+ }
+ tabs.forEach((tab,index)=>{
+  tab.addEventListener('click',()=>select(tab.dataset.tab));
+  tab.addEventListener('keydown',event=>{
+   let next=index;
+   if(event.key==='ArrowRight')next=(index+1)%tabs.length;
+   else if(event.key==='ArrowLeft')next=(index-1+tabs.length)%tabs.length;
+   else if(event.key==='Home')next=0;
+   else if(event.key==='End')next=tabs.length-1;
+   else return;
+   event.preventDefault();select(keys[next],{focus:true});
+  });
+ });
+ window.addEventListener('hashchange',()=>select(location.hash.slice(1),{updateHash:false}));
+ if(keys.includes(location.hash.slice(1)))select(location.hash.slice(1),{updateHash:false});
+})();
+</script>
+</body>
+</html>
