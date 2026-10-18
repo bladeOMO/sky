@@ -13,11 +13,14 @@
 @media(max-width:520px){body{font-size:14px}.profile{padding:32px 22px 24px}.identity{gap:19px}.avatar{width:88px;height:88px}.name{font-size:28px}.handle{font-size:16px}.bio{font-size:16px;margin:24px 0 16px}.attributes{gap:7px}.attributes li,.group{font-size:12px;padding:6px 12px}.group-row{gap:7px}.stats{font-size:14px;gap:24px;margin-top:22px}.stats strong{font-size:18px}.tab{min-height:61px;font-size:16px;padding:17px 0}.content{padding:18px 14px 28px}.post{padding:22px 19px;border-radius:19px}.post-author{gap:10px;margin-bottom:23px}.author-line strong{font-size:16px}.author-line span{font-size:12px}.mini-avatar{width:38px;height:38px}.section-title h2{font-size:21px}.wordlines{font-size:15px}.fold-body{font-size:13px}.fold summary{padding:17px 0;font-size:14px}.about-grid div{grid-template-columns:83px 1fr;gap:10px}.extras{gap:6px 12px}.price-table{font-size:13px}.course-heading strong{font-size:15px}.rules{font-size:13px}.detail-link{padding:13px 15px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.panel{animation:none}*{transition:none!important}}
 .music-control{display:inline-flex;align-items:center;gap:7px;margin-top:18px;min-height:40px;border:1px solid #e9e9e9;border-radius:24px;background:#f7f7f7;padding:8px 13px;color:#777;font-size:12px;line-height:1.5}.music-control:hover{background:#eeeeee}.music-control[aria-pressed="true"]{color:#333}.music-control .note{font-size:15px}.music-control .music-action{color:#444;margin-left:5px}
+
+[hidden]{display:none!important}body.intro-pending{background:#fff}.intro{min-height:100vh;min-height:100svh;display:grid;place-items:center;background:#fff;padding:32px 24px}.intro-inner{text-align:center;display:flex;flex-direction:column;align-items:center;max-width:100%;padding-bottom:4vh}.intro-avatar{display:block;width:132px;height:132px;object-fit:cover;border-radius:50%;background:#262626}.intro-title{margin:30px 0 24px;font-size:22px;line-height:1.5;font-weight:550;letter-spacing:1px;color:#292929}.intro-options{display:flex;gap:14px;justify-content:center}.intro-option{min-width:108px;min-height:46px;padding:10px 25px;border-radius:25px;border:1px solid #e4e4e4;background:#fff;color:#555;font-size:15px;transition:background .2s,transform .2s}.intro-option:first-child{background:#292929;border-color:#292929;color:#fff}.intro-option:hover{background:#f1f1f1;transform:translateY(-2px)}.intro-option:first-child:hover{background:#444}.intro-option:focus-visible{outline:2px solid #666;outline-offset:4px}.shell.intro-entered{animation:introEnter .35s ease both}@keyframes introEnter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@media(max-width:520px){.intro-avatar{width:116px;height:116px}.intro-title{font-size:21px}.intro-option{min-width:104px}}@media(prefers-reduced-motion:reduce){.shell.intro-entered{animation:none}}
 </style>
 </head>
-<body>
+<body class="intro-pending">
 <audio id="background-music" autoplay loop preload="auto" playsinline aria-label="背景音乐：默间奏"><source src="mo-interlude.mp3" type="audio/mpeg"></audio>
-<main class="shell">
+<section class="intro" id="intro" aria-labelledby="intro-title"><div class="intro-inner"><img class="intro-avatar" src="avatar.jpg" alt="温水的头像" width="132" height="132"><h2 class="intro-title" id="intro-title">你想靠近我吗</h2><div class="intro-options"><button type="button" class="intro-option" data-enter>想</button><button type="button" class="intro-option" data-enter>靠近</button></div></div></section>
+<main class="shell" id="profile-page" hidden>
  <header class="profile" id="profile">
   <div class="identity"><img class="avatar" src="avatar.jpg" alt="温水的头像" width="108" height="108"><div><h1 class="name">温水</h1><div class="handle">@WenShui</div></div></div>
   <p class="bio">往事似水如痕</p>
@@ -100,6 +103,14 @@
 </main>
 <script>
 (()=>{
+ const intro=document.getElementById('intro'),profile=document.getElementById('profile-page');
+ intro.querySelectorAll('[data-enter]').forEach(button=>button.addEventListener('click',()=>{
+  intro.hidden=true;profile.hidden=false;profile.classList.add('intro-entered');document.body.classList.remove('intro-pending');window.scrollTo(0,0);
+  const title=profile.querySelector('h1');title.tabIndex=-1;title.focus({preventScroll:true});
+  document.dispatchEvent(new Event('wenshui:enter'));
+ }));
+})();
+(()=>{
  const audio=document.getElementById('background-music');
  const button=document.getElementById('music-control');
  const label=document.getElementById('music-action');
@@ -109,6 +120,7 @@
  function play(){if(!wanted)return;const pending=audio.play();if(pending)pending.then(()=>{if(!wanted)audio.pause();sync();}).catch(()=>{sync();if(wanted&&!audio.error)label.textContent='点击播放';});}
  button.addEventListener('click',()=>{if(!audio.paused){wanted=false;audio.pause();}else{wanted=true;play();}sync();});
  document.querySelector('.tabs').addEventListener('click',()=>{if(wanted&&audio.paused)play();});
+ document.addEventListener('wenshui:enter',()=>{if(wanted&&audio.paused)play();});
  audio.addEventListener('play',sync);audio.addEventListener('pause',sync);
  audio.addEventListener('error',()=>{label.textContent='重试播放';});
  play();window.addEventListener('load',()=>{if(wanted&&audio.paused)play();},{once:true});
