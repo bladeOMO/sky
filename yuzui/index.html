@@ -17,4 +17,6 @@ document.querySelectorAll('[data-route]').forEach(b=>b.addEventListener('click',
 function syncMusic(){const playing=!music.paused;musicButton.textContent=playing?'♫ 暂停音乐':'♫ 播放音乐';musicButton.setAttribute('aria-label',playing?'暂停背景音乐':'播放背景音乐');musicButton.setAttribute('aria-pressed',String(playing))}
 function playMusic(){if(!musicWanted)return;let promise=music.play();if(promise)promise.catch(()=>{syncMusic();musicButton.textContent='♫ 点击播放'})}
 musicButton.onclick=()=>{if(!music.paused){musicWanted=false;music.pause()}else{musicWanted=true;playMusic()}};music.addEventListener('play',syncMusic);music.addEventListener('pause',syncMusic);music.addEventListener('error',()=>{musicButton.textContent='♫ 重试音乐'});document.addEventListener('pointerdown',e=>{if(e.target.closest('#music-toggle'))return;playMusic()},{once:true});document.addEventListener('keydown',()=>playMusic(),{once:true});bird.onload=restart;
+// Attempt audible autoplay without blocking the opening; user gesture retries if blocked.
+setTimeout(playMusic,0);
 </script></html>
