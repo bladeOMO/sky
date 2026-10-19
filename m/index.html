@@ -56,7 +56,8 @@ button,a{font:inherit}button{cursor:pointer}.stage{position:absolute;width:1200p
 .words-2 .word:nth-of-type(1){left:12%;top:26%;font-size:70px}.words-2 .word:nth-of-type(2){left:56%;top:58%;font-size:61px}
 .words-1 .word:nth-of-type(1){left:50%;top:46%;font-size:70px;transform:translate(-50%,-50%) rotate(-5deg)}
 #p7 .word:nth-of-type(1){left:9%;top:18%;font-size:64px}#p7 .word:nth-of-type(2){left:62%;top:19%;font-size:60px}#p7 .word:nth-of-type(3){left:28%;top:56%;font-size:50px}#p7 .word:nth-of-type(4){left:73%;top:73%;font-size:54px}
-</style></head><body>
+</style><link rel="preload" as="image" href="portrait.webp">
+</head><body>
 <audio id="background-music" loop preload="none" playsinline aria-label="背景音乐：pulsebreaker - slowed"><source src="pulsebreaker-slowed.mp3" type="audio/mpeg"></audio>
 <button type="button" class="music-toggle" id="music-toggle" aria-pressed="false" aria-label="播放背景音乐" title="pulsebreaker - slowed"><span class="music-icon" aria-hidden="true">♪</span><span id="music-label">播放音乐</span></button>
 <main class="stage" id="stage">
@@ -132,5 +133,5 @@ function go(n){
 }
 function resize(){let s=document.getElementById('stage'),w=Math.min(document.documentElement.clientWidth,window.visualViewport?.width||innerWidth),h=Math.min(document.documentElement.clientHeight,window.visualViewport?.height||innerHeight),scale=Math.min(w/1200,h/675);s.style.transform='translate(-50%,-50%) scale('+scale+')';}
 addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);resize();
-let v=0;let timer=setInterval(()=>{v=Math.min(100,v+2);document.getElementById('fill').style.width=v+'%';document.getElementById('percent').textContent=v+'%';if(v>=100){clearInterval(timer);document.getElementById('loadtitle').textContent='副本已加载完成';document.getElementById('boss').classList.add('show');document.getElementById('enter').classList.add('show');}},45);
+let v=0;let timer=setInterval(()=>{v=Math.min(100,v+2);document.getElementById('fill').style.width=v+'%';document.getElementById('percent').textContent=v+'%';if(v>=100){clearInterval(timer);document.getElementById('loadtitle').textContent='副本已加载完成';document.getElementById('boss').classList.add('show');document.getElementById('enter').classList.add('show');}},10);
 </script></body></html>
