@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>M · 副本档案</title>
+<style>
+:root{--red:#9c343e;--rose:#c98d91;--white:#e9e0df;--muted:#8e8587;--black:#070708}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;overscroll-behavior:none;touch-action:manipulation;background:#020203;color:var(--white);font-family:"Noto Serif SC","Songti SC","SimSun",serif}
+button,a{font:inherit}button{cursor:pointer}.stage{position:absolute;width:1200px;height:675px;left:50%;top:50%;transform-origin:center center;overflow:hidden;background:radial-gradient(ellipse at 51% 35%,#171014 0%,#0a090b 48%,#030304 92%);border:1px solid #3b282b;box-shadow:0 0 90px #000}
+.stage:before{content:"";pointer-events:none;position:absolute;inset:14px;border:1px solid rgba(179,103,110,.22);z-index:1}.stage:after{content:"";pointer-events:none;position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.012) 4px);opacity:.35;z-index:1}
+ .page{display:none;position:absolute;inset:0;padding:48px 70px;opacity:0;transform:translateX(0);will-change:transform,opacity}.page.active{display:block;opacity:1}.page.slide-in-right{display:block;animation:slideInRight .55s cubic-bezier(.2,.8,.2,1) both}.page.slide-in-left{display:block;animation:slideInLeft .55s cubic-bezier(.2,.8,.2,1) both}.page.slide-out-left{display:block;animation:slideOutLeft .55s cubic-bezier(.2,.8,.2,1) both;pointer-events:none}.page.slide-out-right{display:block;animation:slideOutRight .55s cubic-bezier(.2,.8,.2,1) both;pointer-events:none}@keyframes slideInRight{from{opacity:.3;transform:translateX(100%)}to{opacity:1;transform:translateX(0)}}@keyframes slideInLeft{from{opacity:.3;transform:translateX(-100%)}to{opacity:1;transform:translateX(0)}}@keyframes slideOutLeft{from{opacity:1;transform:translateX(0)}to{opacity:.3;transform:translateX(-100%)}}@keyframes slideOutRight{from{opacity:1;transform:translateX(0)}to{opacity:.3;transform:translateX(100%)}}
+.corner{position:absolute;top:35px;left:47px;color:#c9b5b6;letter-spacing:4px;font-size:13px;z-index:3}.corner b{font-size:24px;font-weight:400;margin-right:15px}.date{position:absolute;right:47px;top:35px;text-align:right;line-height:1.9;letter-spacing:4px;color:#99868a;font-size:10px;z-index:3}
+.cross{color:#c3a1a3;font-size:160px;line-height:1;text-shadow:0 0 20px #7e2538,0 0 45px #3d1520;font-family:Georgia,serif}
+.ornament{position:absolute;color:#76333b;opacity:.6;font-size:26px;pointer-events:none}
+.navbtn{position:absolute;right:70px;bottom:48px;z-index:5;min-width:205px;border:1px solid #a96a73;background:#090809;color:#f2e6e3;padding:13px 22px;letter-spacing:4px;font-size:19px;transition:.2s;box-shadow:0 0 0 5px rgba(120,44,55,.08)}.navbtn:hover,.search:hover,.card:hover{background:#251116;border-color:#e3a4ab;transform:translateY(-2px)}.navbtn:before{content:"✣";color:#b96b76;margin-right:15px}.back{position:absolute;bottom:54px;left:70px;background:none;border:none;color:#a28b8e;letter-spacing:4px;font-size:14px;z-index:4}.back:hover{color:white}
+.homecenter{position:absolute;top:92px;left:0;right:0;text-align:center}.homecenter .cross{font-size:195px}.loadtitle{font-size:30px;letter-spacing:9px;margin-top:16px}.track{width:460px;height:13px;border:1px solid #a86a72;border-radius:20px;margin:25px auto 10px;padding:2px;background:#050405}.fill{height:100%;width:0;background:linear-gradient(90deg,#5e1b27,#c58e96);border-radius:20px;transition:width .12s}.percent{font:14px Georgia;color:#d2a4a8;letter-spacing:3px}.boss{display:none;font-size:23px;letter-spacing:5px;color:#cba0a3;margin-top:24px}.boss.show{display:block;animation:appear .7s ease}.homebtn{opacity:0;pointer-events:none}.homebtn.show{opacity:1;pointer-events:auto}
+.portrait{position:absolute;left:385px;top:27px;height:645px;width:430px;object-fit:contain;object-position:center center;mix-blend-mode:screen;filter:contrast(1.16) brightness(1.08);mask-image:linear-gradient(to bottom,black 0%,black 94%,transparent 100%);z-index:2}
+.halo{position:absolute;left:420px;top:72px;width:360px;height:360px;border:1px solid #5e323b;border-radius:50%;box-shadow:0 0 0 26px rgba(110,42,51,.045),0 0 0 58px rgba(110,42,51,.035)}
+.info{position:absolute;z-index:4;border-top:1px solid #74454e;border-bottom:1px solid #74454e;padding:14px 12px;min-width:260px;background:linear-gradient(90deg,rgba(5,4,5,.92),rgba(10,7,9,.85),rgba(5,4,5,.72));box-shadow:0 0 30px rgba(0,0,0,.6)}.info .num{color:#b86570;font:36px Georgia}.info .big{font-size:28px;letter-spacing:7px}.info .small{font-size:17px;letter-spacing:3px;line-height:2}.i1{left:115px;top:155px}.i2{right:88px;top:205px}.i3{left:115px;bottom:140px}
+.heading{text-align:center;font-size:36px;letter-spacing:10px;margin-top:16px}.subheading{text-align:center;font:12px Georgia;letter-spacing:8px;color:#9d626c;margin:10px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:19px;position:absolute;left:70px;right:70px;top:190px;bottom:100px}.card{border:1px solid #84525a;background:linear-gradient(180deg,#140e11,#070608);color:var(--white);padding:22px 8px;position:relative;transition:.2s;text-align:center}.card:before{content:"✟";display:block;font-size:44px;color:#9d616b;margin-bottom:55px}.card:after{content:"✦";display:block;color:#a36c72;margin-top:44px}.card h2{font-size:24px;letter-spacing:3px;font-weight:400}.card p{font-size:16px;color:#bc8b90;letter-spacing:4px}.card span{font:12px Georgia;color:#756266;letter-spacing:5px}
+.wordarea{position:absolute;inset:125px 90px 145px}.word{position:absolute;display:block;color:#e6d5d5;text-shadow:0 0 22px rgba(135,45,58,.2);white-space:nowrap}.word:nth-of-type(2n){color:#bd9298}.word:nth-of-type(1){left:5%;top:12%;font-size:64px;transform:rotate(-8deg)}.word:nth-of-type(2){left:58%;top:15%;font-size:52px;transform:rotate(8deg)}.word:nth-of-type(3){left:29%;top:47%;font-size:42px;transform:rotate(-5deg)}.word:nth-of-type(4){left:69%;top:66%;font-size:48px;transform:rotate(7deg)}.word:nth-of-type(5){left:7%;top:73%;font-size:40px;transform:rotate(-11deg)}
+.search{position:absolute;bottom:65px;left:50%;transform:translateX(-50%);width:390px;padding:16px 25px;background:#050506;border:1px solid #a86e77;border-radius:30px;color:white;letter-spacing:7px;font-size:19px;transition:background .2s}.search:hover{transform:translateX(-50%) translateY(-2px)}.search:before{content:"⌕";font-size:25px;position:absolute;left:24px;top:10px;color:#a96d77}
+.rulesbox{position:absolute;left:155px;right:155px;top:96px;bottom:90px;border:1px solid #81525a;background:#0c090bcc;padding:29px 56px;overflow:auto;scrollbar-color:#81404d #0a090b}.rulesbox h1{margin:0 0 19px;text-align:center;letter-spacing:10px;font-size:28px;font-weight:400}.rulesbox p{font-size:17px;line-height:1.55;margin:4px 0;letter-spacing:1px}.rulesbox .highlight{color:#d38790}.rulesbox footer{border-top:1px solid #573039;margin-top:20px;padding-top:14px;color:#c6767f;font-size:15px;line-height:1.8}
+.hint{position:fixed;bottom:8px;left:50%;transform:translateX(-50%);color:#6d5d60;font:11px sans-serif;letter-spacing:2px}
+@media (prefers-reduced-motion:reduce){.page{animation:none!important}.fill{transition:none}}
+
+/* Pages 4–6: subtle animated crimson filaments beneath the floating words */
+.wordarea{isolation:isolate}
+.wordarea .word{z-index:2;animation:wordBreathe 6s ease-in-out infinite alternate}
+.wordarea .word:nth-of-type(2){animation-delay:-1.1s}
+.wordarea .word:nth-of-type(3){animation-delay:-2.5s}
+.wordarea .word:nth-of-type(4){animation-delay:-3.4s}
+.wordarea .word:nth-of-type(5){animation-delay:-4.2s}
+.redcurrents{position:absolute;inset:0;width:100%;height:100%;z-index:0;overflow:visible;pointer-events:none;opacity:.85}
+.redcurrents path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.redcurrents .shadowline{stroke:#6b182b;stroke-width:4;opacity:.19;filter:blur(7px)}
+.redcurrents .coreline{stroke:url(#crimson-current);stroke-width:1.3;opacity:.6;stroke-dasharray:12 25 75 26;animation:currentFlow 11s linear infinite}
+.redcurrents .lightline{stroke:#e56b78;stroke-width:1.1;opacity:0;stroke-dasharray:2 100;animation:lightPulse 7s ease-in-out infinite}
+.redcurrents .lightline:nth-of-type(3n){animation-delay:-2s}
+.redcurrents .lightline:nth-of-type(3n + 1){animation-delay:-4s}
+@keyframes currentFlow{to{stroke-dashoffset:-275}}
+@keyframes lightPulse{0%,100%{opacity:.04;stroke-dashoffset:0}45%{opacity:.7}75%{opacity:.1;stroke-dashoffset:-190}}
+@keyframes wordBreathe{from{filter:brightness(.9)}to{filter:brightness(1.13)}}
+@media (prefers-reduced-motion:reduce){.wordarea .word,.redcurrents path{animation:none!important}.redcurrents .coreline{stroke-dasharray:none}}
+
+/* The player lives outside the changing pages and remains usable on phones. */
+.music-toggle{position:fixed;right:max(12px,env(safe-area-inset-right));top:max(12px,env(safe-area-inset-top));z-index:20;min-height:44px;min-width:112px;padding:10px 14px;border:1px solid #89515b;border-radius:24px;background:#100a0eee;color:#ead6d9;font:13px/1.3 sans-serif;letter-spacing:1px;box-shadow:0 0 22px #7b263326;touch-action:manipulation}
+.music-toggle:hover{background:#2a111a;border-color:#d48b97}.music-toggle:focus-visible{outline:2px solid #f0bac5;outline-offset:3px}
+.music-toggle[aria-pressed="true"]{border-color:#c97b89}.music-toggle .music-icon{display:inline-block;width:17px;margin-right:5px;color:#db9ca7}
+.portrait,.halo{left:50%;transform:translateX(-50%)}
+.rulesbox{padding:22px 40px}.rulesbox h1{font-size:26px;margin-bottom:12px}.rulesbox p{font-size:15px;line-height:1.45;margin:3px 0}.rulesbox footer{margin-top:10px;padding-top:8px;font-size:14px;line-height:1.5}
+.hint{bottom:max(6px,env(safe-area-inset-bottom));max-width:95%;white-space:nowrap;letter-spacing:1px;font-size:10px}
+@media(max-width:600px){.music-toggle{font-size:12px;min-width:106px}.hint{font-size:9px;letter-spacing:0}}
+
+/* Keep the original floating type treatment while fitting the new wording. */
+#p4 .word:nth-of-type(1){font-size:54px;left:5%;top:12%}#p4 .word:nth-of-type(2){font-size:48px;left:63%;top:15%}#p4 .word:nth-of-type(3){font-size:43px;left:29%;top:47%}#p4 .word:nth-of-type(4){font-size:56px;left:74%;top:68%}#p4 .word:nth-of-type(5){font-size:31px;left:4%;top:79%}
+.words-2 .word:nth-of-type(1){left:12%;top:26%;font-size:70px}.words-2 .word:nth-of-type(2){left:56%;top:58%;font-size:61px}
+.words-1 .word:nth-of-type(1){left:50%;top:46%;font-size:70px;transform:translate(-50%,-50%) rotate(-5deg)}
+#p7 .word:nth-of-type(1){left:9%;top:18%;font-size:64px}#p7 .word:nth-of-type(2){left:62%;top:19%;font-size:60px}#p7 .word:nth-of-type(3){left:28%;top:56%;font-size:50px}#p7 .word:nth-of-type(4){left:73%;top:73%;font-size:54px}
+</style></head><body>
+<audio id="background-music" loop preload="none" playsinline aria-label="背景音乐：pulsebreaker - slowed"><source src="pulsebreaker-slowed.mp3" type="audio/mpeg"></audio>
+<button type="button" class="music-toggle" id="music-toggle" aria-pressed="false" aria-label="播放背景音乐" title="pulsebreaker - slowed"><span class="music-icon" aria-hidden="true">♪</span><span id="music-label">播放音乐</span></button>
+<main class="stage" id="stage">
+<section class="page active" id="p1"><div class="corner"><b>01</b> HOME</div><div class="date">M<br>2009 · 0708</div>
+<div class="homecenter"><div class="cross">✟</div><div class="loadtitle" id="loadtitle">副本加载中…</div><div class="track"><div class="fill" id="fill"></div></div><div class="percent" id="percent">0%</div><div class="boss" id="boss">本次副本 BOSS — M</div></div>
+<button class="navbtn homebtn" id="enter" onclick="startMusic();go(2)">进入副本 →</button></section>
+<section class="page" id="p2"><div class="corner"><b>02</b> CATALOG</div><div class="date">M<br>2009 · 0708</div><div class="halo"></div>
+<img class="portrait" src="portrait.webp" decoding="async" alt="黑白雕刻风格的持剑天使人物">
+<div class="info i1"><div class="num">01</div><div class="big">M</div><div class="small">2009 0708</div></div>
+<div class="info i2"><div class="num">02</div><div class="small">双子　DOM</div></div>
+<div class="info i3"><div class="num">03</div><div class="big">INFP</div><div class="small">15无</div></div>
+<button class="back" onclick="go(1)">← BACK</button><button class="navbtn" onclick="go(3)">通关步骤 →</button></section>
+<section class="page" id="p3"><div class="corner"><b>03</b> STRATEGY</div><div class="date">M<br>2009 · 0708</div><div class="heading">副本攻略</div><div class="subheading">CHOOSE YOUR ROUTE</div>
+<div class="cards"><button class="card" onclick="go(4)"><h2>群鸦的悲鸣</h2><p>病恋</p><span>01</span></button><button class="card" onclick="go(5)"><h2>齿间的荆棘</h2><p>喜点</p><span>02</span></button><button class="card" onclick="go(6)"><h2>虔诚的罪恶</h2><p>雷点</p><span>03</span></button><button class="card" onclick="go(7)"><h2>劽翅的蝴蝶</h2><p>虚恋</p><span>04</span></button></div><button class="back" onclick="go(2)">← BACK</button></section>
+<section class="page route-page" id="p4"><div class="corner"><b>04</b> ROUTE 01 · 病恋</div><div class="date">群鸦的悲鸣</div><div class="wordarea words-5"><svg class="redcurrents" viewBox="0 0 1020 405" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="crimson-current-m4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#321018"/><stop offset=".38" stop-color="#a43c4e"/><stop offset=".64" stop-color="#d96a78"/><stop offset="1" stop-color="#42141f"/></linearGradient></defs>
+<path class="shadowline" d="M135 102 C255 40 370 95 565 112 S785 120 852 105 M225 145 C325 215 445 220 500 245 S700 288 805 305 M150 325 C295 325 325 270 470 255 S620 185 790 148"/>
+<path class="coreline" style="stroke:url(#crimson-current-m4)" d="M135 102 C255 40 370 95 565 112 S785 120 852 105 M225 145 C325 215 445 220 500 245 S700 288 805 305 M150 325 C295 325 325 270 470 255 S620 185 790 148"/>
+<path class="lightline" d="M135 102 C255 40 370 95 565 112 S785 120 852 105 M225 145 C325 215 445 220 500 245 S700 288 805 305 M150 325 C295 325 325 270 470 255 S620 185 790 148"/></svg><span class="word">小狗1或0</span><span class="word">暧昧微擦</span><span class="word">低无思维跳脱</span><span class="word">dom</span><span class="word">无指定风格将随机刷新</span></div><button class="search" onclick="window.open('https://www.kdocs.cn/l/crRBQ91KR1IU','_blank','noopener')">查看详情　›</button><button class="back" onclick="go(3)">← BACK</button></section>
+<section class="page route-page" id="p5"><div class="corner"><b>05</b> ROUTE 02 · 喜点</div><div class="date">齿间的荆棘</div><div class="wordarea words-2"><svg class="redcurrents" viewBox="0 0 1020 405" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="crimson-current-m5" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#321018"/><stop offset=".38" stop-color="#a43c4e"/><stop offset=".64" stop-color="#d96a78"/><stop offset="1" stop-color="#42141f"/></linearGradient></defs>
+<path class="shadowline" d="M135 102 C255 40 370 95 565 112 S785 120 852 105 M225 145 C325 215 445 220 500 245 S700 288 805 305 M150 325 C295 325 325 270 470 255 S620 185 790 148"/>
+<path class="coreline" style="stroke:url(#crimson-current-m5)" d="M135 102 C255 40 370 95 565 112 S785 120 852 105 M225 145 C325 215 445 220 500 245 S700 288 805 305 M150 325 C295 325 325 270 470 255 S620 185 790 148"/>
+<path class="lightline" d="M135 102 C255 40 370 95 565 112 S785 120 852 105 M225 145 C325 215 445 220 500 245 S700 288 805 305 M150 325 C295 325 325 270 470 255 S620 185 790 148"/></svg><span class="word">强势</span><span class="word">绝对服从</span></div><button class="back" onclick="go(3)">← BACK</button></section>
+<section class="page route-page" id="p6"><div class="corner"><b>06</b> ROUTE 03 · 雷点</div><div class="date">虔诚的罪恶</div><div class="wordarea words-1"><svg class="redcurrents" viewBox="0 0 1020 405" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="crimson-current-m6" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#321018"/><stop offset=".38" stop-color="#a43c4e"/><stop offset=".64" stop-color="#d96a78"/><stop offset="1" stop-color="#42141f"/></linearGradient></defs>
+<path class="shadowline" d="M135 102 C255 40 370 95 565 112 S785 120 852 105 M225 145 C325 215 445 220 500 245 S700 288 805 305 M150 325 C295 325 325 270 470 255 S620 185 790 148"/>
+<path class="coreline" style="stroke:url(#crimson-current-m6)" d="M135 102 C255 40 370 95 565 112 S785 120 852 105 M225 145 C325 215 445 220 500 245 S700 288 805 305 M150 325 C295 325 325 270 470 255 S620 185 790 148"/>
+<path class="lightline" d="M135 102 C255 40 370 95 565 112 S785 120 852 105 M225 145 C325 215 445 220 500 245 S700 288 805 305 M150 325 C295 325 325 270 470 255 S620 185 790 148"/></svg><span class="word">拒搞笑男女</span></div><button class="back" onclick="go(3)">← BACK</button></section>
+<section class="page route-page" id="p7"><div class="corner"><b>07</b> ROUTE 04 · 虚恋</div><div class="date">劽翅的蝴蝶</div><div class="wordarea words-4"><svg class="redcurrents" viewBox="0 0 1020 405" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="crimson-current-m7" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#321018"/><stop offset=".38" stop-color="#a43c4e"/><stop offset=".64" stop-color="#d96a78"/><stop offset="1" stop-color="#42141f"/></linearGradient></defs>
+<path class="shadowline" d="M135 102 C255 40 370 95 565 112 S785 120 852 105 M225 145 C325 215 445 220 500 245 S700 288 805 305 M150 325 C295 325 325 270 470 255 S620 185 790 148"/>
+<path class="coreline" style="stroke:url(#crimson-current-m7)" d="M135 102 C255 40 370 95 565 112 S785 120 852 105 M225 145 C325 215 445 220 500 245 S700 288 805 305 M150 325 C295 325 325 270 470 255 S620 185 790 148"/>
+<path class="lightline" d="M135 102 C255 40 370 95 565 112 S785 120 852 105 M225 145 C325 215 445 220 500 245 S700 288 805 305 M150 325 C295 325 325 270 470 255 S620 185 790 148"/></svg><span class="word">暧昧</span><span class="word">高擦</span><span class="word">意识流</span><span class="word">纯爱</span></div><button class="back" onclick="go(3)">← BACK</button></section>
+</main><div class="hint">M · 副本档案　/　自动完整适配屏幕 · 点击切换页面</div>
+<script>
+const music = document.getElementById('background-music');
+const musicToggle = document.getElementById('music-toggle');
+const musicLabel = document.getElementById('music-label');
+let musicWanted = true;
+music.volume = 0.65;
+function syncMusicButton(){
+ const playing = !music.paused && !music.ended;
+ musicToggle.setAttribute('aria-pressed', String(playing));
+ musicToggle.setAttribute('aria-label', playing ? '暂停背景音乐' : '播放背景音乐');
+ musicLabel.textContent = playing ? '暂停音乐' : '播放音乐';
+}
+function startMusic(){
+ if(!musicWanted) return;
+ const pending = music.play();
+ if(pending) pending.then(()=>{if(!musicWanted)music.pause();syncMusicButton();}).catch(()=>{
+  syncMusicButton();
+  if(musicWanted && !music.error){musicLabel.textContent='点击播放';musicToggle.title='点击进入副本或此按钮，播放背景音乐';}
+ });
+}
+musicToggle.addEventListener('click',()=>{
+ if(!music.paused){musicWanted=false;music.pause();}
+ else{musicWanted=true;startMusic();}
+ syncMusicButton();
+});
+music.addEventListener('play',syncMusicButton);
+music.addEventListener('pause',syncMusicButton);
+music.addEventListener('error',()=>{musicLabel.textContent='重试音乐';musicToggle.title='音乐加载失败，点击重试';});
+// Start the persistent player from the entry button to keep initial loading light.
+
+let current=1,transitioning=false;
+function go(n){
+ if(transitioning||n===current||n<1||n>7)return;
+ transitioning=true;
+ const old=document.getElementById('p'+current),next=document.getElementById('p'+n);
+ const reverse=n===1||n===2&&current===3||n===3&&current>=4;
+ const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ old.classList.remove('active');next.classList.add('active');
+ if(!reduced){old.classList.add(reverse?'slide-out-right':'slide-out-left');next.classList.add(reverse?'slide-in-left':'slide-in-right');}
+ current=n;
+ setTimeout(()=>{old.classList.remove('slide-out-left','slide-out-right');next.classList.remove('slide-in-left','slide-in-right');transitioning=false;},reduced?0:570);
+}
+function resize(){let s=document.getElementById('stage'),w=Math.min(document.documentElement.clientWidth,window.visualViewport?.width||innerWidth),h=Math.min(document.documentElement.clientHeight,window.visualViewport?.height||innerHeight),scale=Math.min(w/1200,h/675);s.style.transform='translate(-50%,-50%) scale('+scale+')';}
+addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);resize();
+let v=0;let timer=setInterval(()=>{v=Math.min(100,v+2);document.getElementById('fill').style.width=v+'%';document.getElementById('percent').textContent=v+'%';if(v>=100){clearInterval(timer);document.getElementById('loadtitle').textContent='副本已加载完成';document.getElementById('boss').classList.add('show');document.getElementById('enter').classList.add('show');}},45);
+</script></body></html>
