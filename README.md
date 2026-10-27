@@ -15,6 +15,8 @@
 
 - [余罪 · 神的指引](https://bladeomo.github.io/sky/yuzui/)（乌鸦开场 · 钟表资料）
 
+- [溯 · 蓝色圣堂](https://bladeomo.github.io/sky/su/)（九页互动资料，逐字旁白、横向切页、蓝紫流光）
+
 ## 文件说明
 
 | 文件 | 用途 |
