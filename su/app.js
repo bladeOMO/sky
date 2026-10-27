@@ -41,86 +41,52 @@
   const coverCopy = document.querySelector('#cover-copy');
   const coverTyped = document.querySelector('.cover-typed');
   const coverChoices = document.querySelector('#cover-choices');
-  const fog = document.querySelector('#cover-fog');
-  const fogContext = fog.getContext('2d');
   const coverText = '一颗心脏重250g，一朵玫瑰重2g\n你是愿意选择用一颗心脏换取一百朵玫瑰\n亦或者用一百朵玫瑰换取一颗心脏?';
   let coverTimer = null;
-  let fogFrame = null;
+  let coverFrame = null;
   let coverPhase = 'typing';
 
   function stopCover() {
     clearTimeout(coverTimer);
-    cancelAnimationFrame(fogFrame);
+    cancelAnimationFrame(coverFrame);
   }
 
   function showCoverChoices(keepText = false) {
     stopCover();
     coverPhase = 'ready';
-    if (fogContext) fogContext.clearRect(0, 0, fog.width, fog.height);
-    fog.classList.add('cleared');
-    if (!keepText) coverCopy.classList.add('finished');
+    coverCopy.classList.toggle('finished', !keepText);
+    if (keepText) {
+      coverCopy.classList.remove('wiping');
+      coverTyped.style.removeProperty('--wipe');
+    }
     coverChoices.inert = false;
     coverChoices.classList.add('ready');
   }
 
-  function paintFog() {
-    fog.width = portrait ? 450 : 720;
-    fog.height = Math.round(fog.width * world.clientHeight / world.clientWidth);
-    if (!fogContext) return;
-    fogContext.globalCompositeOperation = 'source-over';
-    fogContext.fillStyle = 'rgba(8, 17, 37, .78)';
-    fogContext.fillRect(0, 0, fog.width, fog.height);
-    const glow = fogContext.createRadialGradient(fog.width * .5, fog.height * .4, 0, fog.width * .5, fog.height * .4, fog.height * .75);
-    glow.addColorStop(0, 'rgba(116, 139, 172, .18)');
-    glow.addColorStop(1, 'rgba(8, 17, 37, 0)');
-    fogContext.fillStyle = glow;
-    fogContext.fillRect(0, 0, fog.width, fog.height);
-  }
-
-  function wipeFog() {
+  function wipeCoverText() {
     if (current !== COVER) return;
     coverPhase = 'wiping';
-    coverCopy.classList.add('finished');
-    if (paused || reduced.matches || !fogContext) { showCoverChoices(paused || reduced.matches); return; }
-    const w = fog.width, h = fog.height;
-    const radius = Math.min(w, h) * .27;
-    const points = [];
-    for (let row = 0; row <= 7; row += 1) {
-      const y = row * h / 7;
-      points.push({ x: row % 2 ? w + radius : -radius, y });
-      points.push({ x: row % 2 ? -radius : w + radius, y });
-    }
-    const lengths = points.slice(1).map((p, i) => Math.hypot(p.x - points[i].x, p.y - points[i].y));
-    const total = lengths.reduce((a, b) => a + b, 0);
-    function erase(distance) {
-      let segment = 0;
-      while (segment < lengths.length - 1 && distance > lengths[segment]) distance -= lengths[segment++];
-      const a = points[segment], b = points[segment + 1];
-      const t = Math.min(1, distance / lengths[segment]);
-      const x = a.x + (b.x - a.x) * t, y = a.y + (b.y - a.y) * t;
-      const brush = fogContext.createRadialGradient(x, y, 0, x, y, radius);
-      brush.addColorStop(0, 'rgba(0,0,0,1)');
-      brush.addColorStop(.72, 'rgba(0,0,0,1)');
-      brush.addColorStop(1, 'rgba(0,0,0,0)');
-      fogContext.globalCompositeOperation = 'destination-out';
-      fogContext.fillStyle = brush;
-      fogContext.fillRect(x - radius, y - radius, radius * 2, radius * 2);
-    }
-    let elapsed = 0, last = null, erased = 0, lastPaint = 0;
+    if (paused || reduced.matches) { showCoverChoices(true); return; }
+    coverTyped.style.setProperty('--wipe', '-10%');
+    coverCopy.classList.add('wiping');
+    let elapsed = 0, last = null, lastPaint = 0;
     function frame(now) {
       if (current !== COVER) return;
       if (last !== null && !document.hidden) elapsed += now - last;
       last = now;
       if (now - lastPaint > 32) {
-        const target = Math.min(1, elapsed / 3900) * total;
-        for (let d = erased; d < target; d += radius * .18) erase(d);
-        erased = target;
+        const progress = Math.min(1, elapsed / 3000);
+        coverTyped.style.setProperty('--wipe', (progress * 120 - 10) + '%');
         lastPaint = now;
       }
-      if (elapsed >= 3900) { showCoverChoices(); return; }
-      fogFrame = requestAnimationFrame(frame);
+      if (elapsed >= 3000) {
+        coverTyped.style.setProperty('--wipe', '110%');
+        showCoverChoices();
+        return;
+      }
+      coverFrame = requestAnimationFrame(frame);
     }
-    fogFrame = requestAnimationFrame(frame);
+    coverFrame = requestAnimationFrame(frame);
   }
 
   function finishCoverText() {
@@ -129,17 +95,16 @@
     coverTyped.textContent = coverText;
     coverPhase = 'reading';
     if (paused || reduced.matches) showCoverChoices(true);
-    else coverTimer = setTimeout(wipeFog, 1800);
+    else coverTimer = setTimeout(wipeCoverText, 1800);
   }
 
   function startCover() {
     stopCover();
     coverPhase = 'typing';
-    coverCopy.classList.remove('finished');
+    coverCopy.classList.remove('finished', 'wiping');
+    coverTyped.style.removeProperty('--wipe');
     coverChoices.classList.remove('ready');
     coverChoices.inert = true;
-    fog.classList.remove('cleared');
-    paintFog();
     coverTyped.textContent = '';
     if (paused || reduced.matches) { finishCoverText(); return; }
     const letters = [...coverText];

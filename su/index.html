@@ -62,8 +62,10 @@
 .paused .ending-text>*{transition:none!important}
 .room picture,.window-picture picture{display:block;width:100%;height:100%}.room .art-image,.window-picture .art-image{display:block;width:100%;height:100%;object-fit:cover;object-position:center}.art-image{opacity:0;transition:opacity .25s ease}.art-image.art-ready{opacity:1}.statue.art-image{opacity:0}.statue.art-ready{opacity:.9}.window-picture{will-change:transform;backface-visibility:hidden}.mist{filter:none}.line-light{filter:none}.cross-scene:not(.visible) .line-light{animation-play-state:paused}.world.turning .scene.active,.world.turning .scene.exit-left,.world.turning .scene.exit-right{will-change:transform,opacity}
 @media(orientation:portrait){.statue.art-ready{opacity:.78}.dust i{filter:none}}
-.cover-picture,.cover-shade,.cover-fog{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.cover-picture{background:#020819 center/cover no-repeat}.cover-picture .art-image{display:block;width:100%;height:100%;object-fit:cover;object-position:center}.cover-shade{background:linear-gradient(180deg,#01050e44,#02061211 35%,#02061399)}.cover-fog{z-index:2;opacity:1;transition:opacity .4s}.cover-fog.cleared{opacity:0}.cover-copy{position:absolute;z-index:3;top:44%;left:230px;right:230px;transform:translateY(-50%);padding:25px 0;font-size:31px;line-height:2.3;letter-spacing:2px;text-align:center;font-weight:400;white-space:pre-line;text-shadow:0 2px 14px #01040e;transition:opacity .65s}.cover-copy.finished{opacity:0;pointer-events:none}.cover-typed{display:block;min-height:215px}.cover-choices{position:absolute;z-index:4;left:180px;right:180px;bottom:140px;opacity:0;visibility:hidden;transform:translateY(7px);transition:opacity .8s,transform .8s;pointer-events:none;text-align:center}.cover-choices.ready{opacity:1;visibility:visible;transform:none;pointer-events:auto}.cover-choices p{font-size:28px;letter-spacing:3px;margin:0 0 32px;line-height:1.8}.cover-choices .choice-row button{min-width:180px}
+.cover-picture,.cover-shade{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.cover-picture{background:#020819 center/cover no-repeat}.cover-picture .art-image{display:block;width:100%;height:100%;object-fit:cover;object-position:center}.cover-shade{background:linear-gradient(180deg,#01050e44,#02061211 35%,#02061399)}.cover-copy{position:absolute;z-index:3;top:44%;left:230px;right:230px;transform:translateY(-50%);padding:25px 0;font-size:31px;line-height:2.3;letter-spacing:2px;text-align:center;font-weight:400;white-space:pre-line;text-shadow:0 2px 14px #01040e;transition:opacity .65s}.cover-copy.finished{opacity:0;pointer-events:none}.cover-typed{display:block;min-height:215px}.cover-choices{position:absolute;z-index:4;left:180px;right:180px;bottom:140px;opacity:0;visibility:hidden;transform:translateY(7px);transition:opacity .8s,transform .8s;pointer-events:none;text-align:center}.cover-choices.ready{opacity:1;visibility:visible;transform:none;pointer-events:auto}.cover-choices p{font-size:28px;letter-spacing:3px;margin:0 0 32px;line-height:1.8}.cover-choices .choice-row button{min-width:180px}
 @media(orientation:portrait){.cover-copy{top:40%;left:70px;right:70px;font-size:38px;line-height:2.15;letter-spacing:2px}.cover-typed{min-height:460px}.cover-choices{left:70px;right:70px;bottom:215px}.cover-choices p{font-size:36px;letter-spacing:2px;line-height:1.8;margin-bottom:40px}.cover-choices .choice-row button{min-width:260px}.cover-picture .art-image{object-position:center}}
+
+.cover-copy.wiping{pointer-events:none}.cover-copy.wiping .cover-typed{-webkit-mask-image:linear-gradient(112deg,transparent calc(var(--wipe,-10%) - 6%),#000 calc(var(--wipe,-10%) + 6%));mask-image:linear-gradient(112deg,transparent calc(var(--wipe,-10%) - 6%),#000 calc(var(--wipe,-10%) + 6%));-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
 
 </style>
 
@@ -103,7 +105,6 @@
     <section class="scene cover active" id="cover" aria-label="封面，心脏与玫瑰">
       <div class="cover-picture" aria-hidden="true" style="background-image:url(data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAADwBACdASokABwAPv1orU6rJaQiMBqqqWAfiWgAwcwWbURL2Pi8c0ACcbQ696DrzJAA/vKrchARVAZmi1PuXzNrHB8riWQpoq/Z/l3sUg/rp3xD1M+d2GMVCYTTnbEg4zqfLseKadCLAb8hXPC3AtTZfAYJCpFwyb15djCPFc1UMyiu9e1l7MAj12XEAAAA)"><img class="art-image" src="assets/cover.webp" alt="" width="1198" height="926" decoding="async" fetchpriority="high"></div>
       <div class="cover-shade" aria-hidden="true"></div>
-      <canvas class="cover-fog" id="cover-fog" aria-hidden="true"></canvas>
       <button class="cover-copy" id="cover-copy" aria-label="显示完整封面文字"><span class="cover-typed" aria-hidden="true"></span><span class="sr-only">一颗心脏重250g，一朵玫瑰重2g 你是愿意选择用一颗心脏换取一百朵玫瑰 亦或者用一百朵玫瑰换取一颗心脏?</span></button>
       <div class="cover-choices" id="cover-choices" inert>
         <p>你是否想更了解我一点呢</p>
@@ -270,86 +271,52 @@
   const coverCopy = document.querySelector('#cover-copy');
   const coverTyped = document.querySelector('.cover-typed');
   const coverChoices = document.querySelector('#cover-choices');
-  const fog = document.querySelector('#cover-fog');
-  const fogContext = fog.getContext('2d');
   const coverText = '一颗心脏重250g，一朵玫瑰重2g\n你是愿意选择用一颗心脏换取一百朵玫瑰\n亦或者用一百朵玫瑰换取一颗心脏?';
   let coverTimer = null;
-  let fogFrame = null;
+  let coverFrame = null;
   let coverPhase = 'typing';
 
   function stopCover() {
     clearTimeout(coverTimer);
-    cancelAnimationFrame(fogFrame);
+    cancelAnimationFrame(coverFrame);
   }
 
   function showCoverChoices(keepText = false) {
     stopCover();
     coverPhase = 'ready';
-    if (fogContext) fogContext.clearRect(0, 0, fog.width, fog.height);
-    fog.classList.add('cleared');
-    if (!keepText) coverCopy.classList.add('finished');
+    coverCopy.classList.toggle('finished', !keepText);
+    if (keepText) {
+      coverCopy.classList.remove('wiping');
+      coverTyped.style.removeProperty('--wipe');
+    }
     coverChoices.inert = false;
     coverChoices.classList.add('ready');
   }
 
-  function paintFog() {
-    fog.width = portrait ? 450 : 720;
-    fog.height = Math.round(fog.width * world.clientHeight / world.clientWidth);
-    if (!fogContext) return;
-    fogContext.globalCompositeOperation = 'source-over';
-    fogContext.fillStyle = 'rgba(8, 17, 37, .78)';
-    fogContext.fillRect(0, 0, fog.width, fog.height);
-    const glow = fogContext.createRadialGradient(fog.width * .5, fog.height * .4, 0, fog.width * .5, fog.height * .4, fog.height * .75);
-    glow.addColorStop(0, 'rgba(116, 139, 172, .18)');
-    glow.addColorStop(1, 'rgba(8, 17, 37, 0)');
-    fogContext.fillStyle = glow;
-    fogContext.fillRect(0, 0, fog.width, fog.height);
-  }
-
-  function wipeFog() {
+  function wipeCoverText() {
     if (current !== COVER) return;
     coverPhase = 'wiping';
-    coverCopy.classList.add('finished');
-    if (paused || reduced.matches || !fogContext) { showCoverChoices(paused || reduced.matches); return; }
-    const w = fog.width, h = fog.height;
-    const radius = Math.min(w, h) * .27;
-    const points = [];
-    for (let row = 0; row <= 7; row += 1) {
-      const y = row * h / 7;
-      points.push({ x: row % 2 ? w + radius : -radius, y });
-      points.push({ x: row % 2 ? -radius : w + radius, y });
-    }
-    const lengths = points.slice(1).map((p, i) => Math.hypot(p.x - points[i].x, p.y - points[i].y));
-    const total = lengths.reduce((a, b) => a + b, 0);
-    function erase(distance) {
-      let segment = 0;
-      while (segment < lengths.length - 1 && distance > lengths[segment]) distance -= lengths[segment++];
-      const a = points[segment], b = points[segment + 1];
-      const t = Math.min(1, distance / lengths[segment]);
-      const x = a.x + (b.x - a.x) * t, y = a.y + (b.y - a.y) * t;
-      const brush = fogContext.createRadialGradient(x, y, 0, x, y, radius);
-      brush.addColorStop(0, 'rgba(0,0,0,1)');
-      brush.addColorStop(.72, 'rgba(0,0,0,1)');
-      brush.addColorStop(1, 'rgba(0,0,0,0)');
-      fogContext.globalCompositeOperation = 'destination-out';
-      fogContext.fillStyle = brush;
-      fogContext.fillRect(x - radius, y - radius, radius * 2, radius * 2);
-    }
-    let elapsed = 0, last = null, erased = 0, lastPaint = 0;
+    if (paused || reduced.matches) { showCoverChoices(true); return; }
+    coverTyped.style.setProperty('--wipe', '-10%');
+    coverCopy.classList.add('wiping');
+    let elapsed = 0, last = null, lastPaint = 0;
     function frame(now) {
       if (current !== COVER) return;
       if (last !== null && !document.hidden) elapsed += now - last;
       last = now;
       if (now - lastPaint > 32) {
-        const target = Math.min(1, elapsed / 3900) * total;
-        for (let d = erased; d < target; d += radius * .18) erase(d);
-        erased = target;
+        const progress = Math.min(1, elapsed / 3000);
+        coverTyped.style.setProperty('--wipe', (progress * 120 - 10) + '%');
         lastPaint = now;
       }
-      if (elapsed >= 3900) { showCoverChoices(); return; }
-      fogFrame = requestAnimationFrame(frame);
+      if (elapsed >= 3000) {
+        coverTyped.style.setProperty('--wipe', '110%');
+        showCoverChoices();
+        return;
+      }
+      coverFrame = requestAnimationFrame(frame);
     }
-    fogFrame = requestAnimationFrame(frame);
+    coverFrame = requestAnimationFrame(frame);
   }
 
   function finishCoverText() {
@@ -358,17 +325,16 @@
     coverTyped.textContent = coverText;
     coverPhase = 'reading';
     if (paused || reduced.matches) showCoverChoices(true);
-    else coverTimer = setTimeout(wipeFog, 1800);
+    else coverTimer = setTimeout(wipeCoverText, 1800);
   }
 
   function startCover() {
     stopCover();
     coverPhase = 'typing';
-    coverCopy.classList.remove('finished');
+    coverCopy.classList.remove('finished', 'wiping');
+    coverTyped.style.removeProperty('--wipe');
     coverChoices.classList.remove('ready');
     coverChoices.inert = true;
-    fog.classList.remove('cleared');
-    paintFog();
     coverTyped.textContent = '';
     if (paused || reduced.matches) { finishCoverText(); return; }
     const letters = [...coverText];
