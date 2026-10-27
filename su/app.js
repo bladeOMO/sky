@@ -6,6 +6,8 @@
   const pageCount = document.querySelector('#page-count');
   const chapter = document.querySelector('#chapter');
   const motionToggle = document.querySelector('#motion-toggle');
+  const backButton = document.querySelector('#back-button');
+  const viewportSize = document.querySelector('#viewport-size');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const titles = ['', '', '', '虚恋', '病恋', '树洞', '喜点', '雷点 / 须知', '其他'];
   const narratives = [
@@ -33,14 +35,16 @@
   }
 
   function fit() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    const bounds = viewportSize.getBoundingClientRect();
+    const width = bounds.width;
+    const height = bounds.height;
     portrait = height > width;
     const portraitHeight = Math.max(1600, height * 900 / width);
     const scale = portrait ? Math.min(width / 900, height / portraitHeight) : Math.min(width / 1600, height / 900);
     world.style.setProperty('--portrait-height', portraitHeight + 'px');
     world.style.setProperty('--scale', String(scale));
     world.style.setProperty('--rotation', '0deg');
+    world.style.top = (height / 2) + 'px';
   }
 
   function unlockChoices(index) {
@@ -110,7 +114,8 @@
     const old = scenes[oldIndex];
     const incoming = scenes[index];
     current = index;
-    if (old !== incoming && animate && !reduced.matches) {
+    if (old !== incoming && animate && !reduced.matches && !paused) {
+      world.classList.add('turning');
       incoming.classList.add('no-transition');
       incoming.classList.remove('active');
       if (direction < 0) incoming.classList.add('enter-left');
@@ -120,9 +125,18 @@
       old.classList.add(direction > 0 ? 'exit-left' : 'exit-right');
       incoming.classList.remove('enter-left');
       incoming.classList.add('active');
-      cleanupTimer = setTimeout(() => old.classList.remove('exit-left', 'exit-right'), 700);
+      cleanupTimer = setTimeout(() => {
+        old.classList.remove('exit-left', 'exit-right');
+        world.classList.remove('turning');
+      }, 700);
     } else {
-      scenes.forEach((scene, i) => scene.classList.toggle('active', i === index));
+      world.classList.remove('turning');
+      scenes.forEach((scene, i) => {
+        scene.classList.add('no-transition');
+        scene.classList.toggle('active', i === index);
+      });
+      void world.offsetWidth;
+      scenes.forEach(scene => scene.classList.remove('no-transition'));
     }
     cross.classList.toggle('visible', index >= 2 && index <= 6);
     cross.classList.toggle('hub', index === 2);
@@ -130,7 +144,8 @@
     chapter.textContent = titles[index];
     pageCount.textContent = String(index + 1).padStart(2, '0') + ' / 09';
     document.title = index <= 2 ? '溯 · 蓝色圣堂' : '溯 · ' + titles[index];
-    if (updateHash) history.replaceState(null, '', '#' + incoming.id);
+    backButton.hidden = index === 0;
+    if (updateHash && location.hash !== '#' + incoming.id) history.pushState(null, '', '#' + incoming.id);
     startNarration(index);
     restoreViewport();
     requestAnimationFrame(restoreViewport);
@@ -147,6 +162,7 @@
   document.querySelectorAll('[data-go]').forEach(button => {
     button.addEventListener('click', () => show(Number(button.dataset.go)));
   });
+  backButton.addEventListener('click', () => show(current > 2 ? 2 : current - 1));
   document.querySelectorAll('.narration-text').forEach(button => button.addEventListener('click', finishNarration));
   document.addEventListener('keydown', event => {
     if (event.altKey || event.ctrlKey || event.metaKey) return;
@@ -155,7 +171,9 @@
     if (event.key === 'Escape' && current > 2) show(2);
   });
 
-  world.addEventListener('pointerdown', event => { inputStart = { x: event.clientX, y: event.clientY }; });
+  world.addEventListener('pointerdown', event => {
+    inputStart = world.classList.contains('turning') || event.target.closest('button, a') ? null : { x: event.clientX, y: event.clientY };
+  });
   world.addEventListener('pointerup', event => {
     if (!inputStart) return;
     const dx = event.clientX - inputStart.x;
@@ -213,11 +231,6 @@
     const index = scenes.findIndex(scene => scene.id === location.hash.slice(1));
     if (index >= 0 && index !== current) show(index, false);
   });
+  window.addEventListener('pageshow', () => { fit(); restoreViewport(); });
   scheduleStorm();
-  const loading = document.querySelector('#loading');
-  function done() { loading.classList.add('done'); setTimeout(() => { loading.hidden = true; }, 800); }
-  const firstImage = new Image();
-  firstImage.src = 'assets/window.webp';
-  firstImage.decode().catch(() => {}).finally(done);
-  setTimeout(done, 5000);
 })();

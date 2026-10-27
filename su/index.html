@@ -8,17 +8,64 @@
 <title>溯 · 蓝色圣堂</title>
 <link rel="preload" href="assets/room.webp" as="image">
 <link rel="preload" href="assets/window.webp" as="image">
-<link rel="stylesheet" href="style.css">
-<script src="app.js" defer></script>
+<style>
+:root{color-scheme:dark;--white:#e4e9f1;--quiet:#a2b2ca;--soft:#7b91b5;--scale:1;--rotation:0deg}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#030713;color:var(--white)}body{font-family:"Songti SC","Noto Serif SC","SimSun",serif;-webkit-font-smoothing:antialiased;overscroll-behavior:none}button,a{-webkit-tap-highlight-color:transparent}button{font:inherit;color:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:1px solid #c5cff4;outline-offset:9px}button{border:0;background:none}a{color:inherit}button[disabled]{cursor:default}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}.loading{position:fixed;inset:0;z-index:50;display:grid;place-items:center;font-size:13px;letter-spacing:3px;background:#030713;transition:opacity .7s}.loading.done{opacity:0;pointer-events:none}.world{position:absolute;width:1600px;height:900px;left:50%;top:50%;transform:translate(-50%,-50%) rotate(var(--rotation)) scale(var(--scale));transform-origin:center;overflow:clip;background:#050c20;isolation:isolate;touch-action:none}.room,.room-shade,.mist{position:absolute;inset:0;pointer-events:none}.room{background:#050d21 url('assets/room.webp') center/cover no-repeat;z-index:-5}.room-shade{background:linear-gradient(90deg,#0209191f,#040c1c3b 35%,#040a1926 65%,#0207142b);z-index:-4}.mist{inset:50% -10% -5%;z-index:-3;opacity:.16;background:radial-gradient(ellipse at 30% 72%,#3d6c9e88,transparent 35%),radial-gradient(ellipse at 73% 40%,#4a468350,transparent 45%);filter:blur(28px);animation:mist 24s ease-in-out infinite alternate}@keyframes mist{from{transform:translate(-15px,9px)}to{transform:translate(35px,-9px)}}.header{position:absolute;inset:34px 65px auto;display:flex;align-items:center;gap:20px;z-index:20;pointer-events:none}.header>*{pointer-events:auto}.name{font-size:25px;letter-spacing:5px;padding:0;text-shadow:0 1px 4px #0005}.chapter{color:var(--quiet);font-size:17px;letter-spacing:5px}.page-count{margin-left:auto;font-family:Georgia,serif;font-size:24px;letter-spacing:3px}.scenes{position:absolute;inset:0;z-index:2}.scene{position:absolute;inset:0;transform:translateX(105%);opacity:0;visibility:hidden;pointer-events:none;transition:transform .65s cubic-bezier(.22,.7,.22,1),opacity .45s,visibility 0s .65s}.scene.active{transform:translateX(0);opacity:1;visibility:visible;pointer-events:auto;transition:transform .65s cubic-bezier(.22,.7,.22,1),opacity .5s,visibility 0s}.scene.enter-left{transform:translateX(-105%);opacity:0}.scene.exit-left{transform:translateX(-105%);opacity:0;visibility:visible}.scene.exit-right{transform:translateX(105%);opacity:0;visibility:visible}.scene.no-transition{transition:none!important}.window-picture{position:absolute;inset:-1%;background:#07162e url('assets/window.webp') center/cover no-repeat;animation:window-drift 24s ease-in-out infinite alternate}.opening-shade{position:absolute;inset:0;background:linear-gradient(180deg,#03091622,transparent 50%,#020714c9 98%)}@keyframes window-drift{from{transform:scale(1.005) translateY(0)}to{transform:scale(1.018) translateY(-3px)}}.lightning{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none;filter:blur(.5px);clip-path:polygon(35% 0,72% 0,73% 67%,32% 67%)}.light-flash{position:absolute;inset:0;background:#7a9de5;opacity:0;pointer-events:none}.opening.flash .lightning{animation:lightning .9s linear}.opening.flash .light-flash{animation:flash .9s linear}@keyframes lightning{0%,100%{opacity:0}9%{opacity:.52}15%{opacity:.09}23%{opacity:.4}38%{opacity:0}}@keyframes flash{0%,100%{opacity:0}9%{opacity:.075}15%{opacity:0}23%{opacity:.04}38%{opacity:0}}.dust{position:absolute;inset:10% 12% 18%;pointer-events:none;overflow:hidden}.dust i{position:absolute;width:2px;height:2px;background:#a8bad7;opacity:0;border-radius:50%;animation:dust-rise 25s linear infinite;filter:blur(.6px)}@keyframes dust-rise{0%{opacity:0;transform:translate(0,80px)}20%{opacity:.2}80%{opacity:.1}100%{opacity:0;transform:translate(20px,-160px)}}.narration{position:absolute;left:130px;right:130px;text-align:center;z-index:5;background:linear-gradient(180deg,#0510231a,#030b1a87 50%,#050c1d11);border-top:1px solid #a4bed434}.narration-intro{top:715px;height:175px;padding-top:21px}.narration-text{position:relative;display:block;width:100%;min-height:42px;margin:0;padding:4px 14px;font-size:25px;font-weight:400;line-height:1.7;letter-spacing:2px;text-align:center}.typed.typing:after{content:"";display:inline-block;width:1px;height:23px;background:#b4c5e1;margin-left:5px;vertical-align:-3px;animation:cursor 1s steps(2,end) infinite}@keyframes cursor{50%{opacity:0}}.choices{opacity:0;transform:translateY(7px);transition:opacity .65s,transform .65s;pointer-events:none;visibility:hidden}.choices.ready{opacity:1;transform:none;pointer-events:auto;visibility:visible}.choice-prompt{font-size:17px;letter-spacing:4px;color:var(--quiet);margin:3px 0 11px}.choice-row{display:flex;align-items:center;justify-content:center;gap:105px}.choice-row button{min-width:145px;font-size:23px;letter-spacing:3px;padding:6px 24px 11px;position:relative}.choice-row button:after{content:"";position:absolute;left:30%;right:30%;bottom:0;height:1px;background:#b6c8e275;transition:left .25s,right .25s,background .25s}.choice-row button:hover:after,.choice-row button:focus-visible:after{left:10%;right:10%;background:#bac9f4}.profile .narration-intro{top:726px;padding-top:20px;height:155px}.profile .choice-row{margin-top:15px;gap:125px}.profile .narration-text{font-size:24px}.statue{position:absolute;left:855px;top:57px;width:720px;height:690px;object-fit:contain;object-position:center bottom;opacity:.9;filter:blur(.5px);mask-image:linear-gradient(to bottom,#000 0%,#000 80%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 80%,transparent 100%)}.detail-lines{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity 1.8s .2s}.active .detail-lines{opacity:.45}.profile-details{position:absolute;left:210px;top:140px;width:610px;display:grid;grid-template-rows:158px 115px 115px 115px}.detail{opacity:0;transform:translateX(-15px);transition:opacity 1s,transform 1s}.active .detail{opacity:1;transform:none}.active .detail:nth-child(2){transition-delay:.3s}.active .detail:nth-child(3){transition-delay:.6s}.active .detail:nth-child(4){transition-delay:.9s}.detail-name h1{font-size:62px;line-height:1.3;margin:0 0 13px;font-weight:400;letter-spacing:8px}.detail-name p{font-size:21px;line-height:1.8;letter-spacing:2px;color:#c4cede;margin:0;white-space:nowrap}.detail-value{font-size:35px;line-height:1.5;letter-spacing:3px;margin:10px 0 0}.cross-scene{position:absolute;inset:0;opacity:0;transition:opacity .65s;pointer-events:none;z-index:0}.cross-scene.visible{opacity:1}.cross{position:absolute;left:50%;top:50.3%;width:155px;height:345px;transform:translate(-50%,-50%)}.cross-v,.cross-h{position:absolute;background:linear-gradient(90deg,#2a4b79,#7195c5 48%,#355a89);border:1px solid #7ba2d04d;box-shadow:0 0 21px #3569a922}.cross-v{width:9px;height:345px;left:73px;top:0}.cross-h{height:8px;width:155px;left:0;top:94px;background:linear-gradient(180deg,#3b608b,#80a3ca 48%,#3e6491)}.flow-lines{position:absolute;inset:0;width:100%;height:100%;opacity:.85}.line-base{stroke-width:1.2;opacity:.25}.line-light{stroke-width:1.8;opacity:.65;stroke-dasharray:38 1500;animation:flow 21s linear infinite;filter:url(#flow-soft)}.line-second{animation-delay:-10s;animation-duration:26s}.line-third{animation-delay:-4s;animation-duration:23s;opacity:.1}.line-light.line-third{opacity:.28}.cross-scene.hub .line-third{display:none}.cross-scene.hub .line-base{opacity:.08}.cross-scene.hub .line-light{opacity:.19}@keyframes flow{from{stroke-dashoffset:1538}to{stroke-dashoffset:0}}.chapter-links button{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);font-size:31px;font-weight:400;letter-spacing:6px;white-space:nowrap;padding:13px 13px 22px;transition:color .3s,background .3s}.chapter-links button span{margin-right:22px}.chapter-links button:after{content:"";position:absolute;width:51px;height:1px;background:#c1d2e1a6;bottom:1px;left:calc(50% - 25.5px);transition:width .3s,left .3s,background .3s}.chapter-links button:hover{color:#e8ddff}.chapter-links button:hover:after{width:75px;left:calc(50% - 37.5px);background:#a390cf}.narration-directory{top:748px;height:145px;padding-top:20px}.narration-directory .narration-text{font-size:23px;letter-spacing:2px;min-height:41px}.quiet-hint{color:#a6b5c9;font-size:15px;letter-spacing:5px;margin:14px 0 0}.side-label{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);font-size:22px;letter-spacing:5px;color:#a3b1c8;opacity:.8}.word{position:absolute;left:var(--x);top:var(--y);font-size:var(--size);letter-spacing:5px;font-weight:400;white-space:nowrap;line-height:1.6;transform:translate(-50%,-50%);animation:word-float 8s ease-in-out infinite;animation-delay:var(--delay);text-shadow:0 1px 6px #040a19aa}@keyframes word-float{0%,100%{transform:translate(-50%,calc(-50% + 3px))}50%{transform:translate(-50%,calc(-50% - 4px))}}.return{position:absolute;left:50%;bottom:66px;transform:translateX(-50%);padding:10px 16px 17px;font-size:20px;color:#c2cad8;letter-spacing:4px}.return:after{content:"";position:absolute;bottom:0;left:calc(50% - 25px);width:50px;height:1px;background:#a4b5ce8a;transition:background .3s,width .3s,left .3s}.return:hover{color:#e0d3f6}.return:hover:after{background:#b3a0dc;width:72px;left:calc(50% - 36px)}.rules-frame{position:absolute;left:175px;right:175px;top:140px;bottom:145px;padding:33px 44px;display:grid;grid-template-columns:1fr 1.12fr;gap:72px;border:1px solid #5c82ac6b;background:#07132c80;box-shadow:0 0 35px #0b21402b inset;backdrop-filter:blur(4px)}.rule-column{font-size:21px;letter-spacing:.7px;line-height:1.7}.rule-column p{position:relative;padding-left:34px;margin:0 0 18px;font-weight:400;color:#d2d9e5}.rule-column p>span{position:absolute;left:0;top:0;color:#97aaca;font-family:Georgia,serif;font-size:20px;letter-spacing:0}.rule-column:first-child p{margin-bottom:28px}.document-links{position:absolute;left:165px;right:165px;top:260px;height:330px;display:grid;grid-template-columns:repeat(5,1fr);gap:38px;align-items:center}.document-links a{display:flex;flex-direction:column;align-items:flex-start;text-decoration:none;padding:25px 8px 25px 18px;position:relative;border-left:1px solid #6b85b04d;transition:background .35s}.document-links a:hover{background:linear-gradient(90deg,#6b65a319,transparent)}.doc-number{font-family:Georgia,serif;font-size:17px;letter-spacing:2px;color:#7f97be;margin-bottom:40px}.document-links a>span:nth-child(2){font-size:31px;letter-spacing:5px;white-space:nowrap}.doc-action{font-size:16px;letter-spacing:2px;color:#a0afc6;margin-top:36px;position:relative;padding-bottom:14px}.doc-action:after{content:"";position:absolute;left:0;bottom:0;width:39px;height:1px;background:#92a4be87}.motion-toggle{position:absolute;right:65px;bottom:29px;font-size:14px;letter-spacing:2px;color:#a1aec2a3;padding:5px;z-index:20}.motion-toggle:hover{color:#d1d8e6}.no-script{position:fixed;inset:0;display:grid;place-content:center;gap:20px;text-align:center;background:#030915;padding:30px}.paused *, .paused *:before,.paused *:after{animation-play-state:paused!important}.paused .opening.flash .lightning,.paused .opening.flash .light-flash{animation:none!important;opacity:0!important}.scene:not(.active) .word,.scene:not(.active) .window-picture,.scene:not(.active) .dust i{animation-play-state:paused}.world.story .cross-scene{opacity:0!important}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.lightning,.light-flash,.dust{display:none}.mist{display:none}}
+
+.loading[hidden]{display:none}.detail-lines-mobile{display:none}
+#viewport-size{position:fixed;top:0;left:0;width:100%;height:100%;height:100svh;visibility:hidden;pointer-events:none}
+.back-button{font-size:20px;letter-spacing:2px;color:#d1dcec;min-height:48px;padding:10px 17px;border:1px solid #91afd04f;background:#07162b70}
+.back-button[hidden]{display:none}
+.back-button:hover,.choice-row button:hover{background:#1b315580;border-color:#a8bee0a3}
+.choice-row{gap:48px}.choice-row button{min-width:180px;min-height:52px;border:1px solid #9fbce080;background:#0c1b35a6;padding:10px 24px;transition:background .2s,border-color .2s,transform .15s}
+.choice-row button:after{display:none}.choice-row button:active{transform:scale(.97)}
+.return{border:1px solid #91afd04f;background:#07162b70;min-height:48px;padding:11px 22px;bottom:57px}.return:after{display:none}
+@media(orientation:portrait){
+.world{width:900px;height:var(--portrait-height,1600px)}
+.header{inset:45px 48px auto;gap:20px}.name{font-size:32px}.chapter{font-size:23px}.page-count{font-size:30px}
+.window-picture{background-position:center}
+.narration{left:55px;right:55px}.narration-intro{top:auto;bottom:55px;height:300px;padding-top:24px}.narration-text{font-size:30px;line-height:1.8;letter-spacing:2px;min-height:108px;padding:8px 5px}
+.choice-prompt{font-size:22px;margin:11px 0 14px}.choice-row{gap:90px}.choice-row button{min-width:160px;font-size:32px;padding:11px 24px 16px}
+.profile:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#040b1b52,transparent 80%);pointer-events:none}
+.statue{left:280px;top:170px;width:620px;height:840px;opacity:.78}
+.detail-lines{display:none}.detail-lines-mobile{display:block}
+.profile-details{left:75px;top:240px;width:540px;grid-template-rows:210px 150px 150px 150px}
+.detail-name h1{font-size:74px;margin-bottom:18px}.detail-name p{font-size:25px;line-height:1.9;white-space:normal;max-width:515px}.detail-value{font-size:34px;margin-top:20px}
+.profile .narration-intro{top:auto;bottom:70px;height:280px;padding-top:23px}.profile .narration-text{font-size:30px}.profile .choice-row{margin-top:22px;gap:70px}
+.cross{width:190px;height:440px;top:48%}.cross-v{height:440px;width:10px;left:90px}.cross-h{width:190px;height:9px;top:120px}
+.chapter-links button{font-size:34px;letter-spacing:5px;min-height:105px;padding:21px 17px 25px}.chapter-links button span{margin-right:17px}
+.narration-directory{top:auto;bottom:65px;height:205px;padding-top:23px}.narration-directory .narration-text{font-size:29px;min-height:70px}.quiet-hint{font-size:20px;margin-top:18px;letter-spacing:4px}
+.side-label{font-size:25px}.word{font-size:calc(var(--size) + 1px);letter-spacing:3px}.return{bottom:75px;font-size:26px;padding-bottom:20px}
+.rules-frame{left:55px;right:55px;top:135px;bottom:165px;padding:32px 30px;display:block;background:#07132c99}
+.rule-column{font-size:30px;line-height:1.65;letter-spacing:.6px}.rule-column p,.rule-column:first-child p{margin-bottom:18px;padding-left:40px}.rule-column p>span{font-size:26px}
+.document-links{left:100px;right:100px;top:220px;height:1020px;display:grid;grid-template-columns:1fr;gap:10px}
+.document-links a{display:grid;grid-template-columns:70px 1fr 120px;align-items:center;padding:24px 12px;border-left:0;border-bottom:1px solid #6b85b04d;min-height:160px}
+.doc-number{font-size:23px;margin:0}.document-links a>span:nth-child(2){font-size:37px;letter-spacing:5px}.doc-action{font-size:22px;margin:0;padding-bottom:14px;white-space:nowrap}
+.motion-toggle{right:40px;bottom:22px;font-size:19px;letter-spacing:1px}
+.header{align-items:center;gap:20px}.back-button{font-size:28px;letter-spacing:1px;min-height:100px;padding:20px 24px}
+.header .chapter{position:absolute;top:112px;left:0;font-size:25px}
+.narration-intro,.profile .narration-intro{top:auto;bottom:125px;height:350px;padding-top:22px}
+.narration-text,.profile .narration-text{font-size:32px;line-height:1.8;min-height:126px}
+.choice-prompt{height:42px;margin:2px 0 14px;font-size:24px}
+.choice-row,.profile .choice-row{gap:40px;margin-top:0}
+.choice-row button{min-width:260px;min-height:104px;font-size:34px;letter-spacing:3px;padding:20px 24px}
+.profile .choices{padding-top:58px}
+.return{bottom:90px;min-height:100px;font-size:28px;padding:20px 32px}
+}
+
+.world.turning .scene{pointer-events:none!important}
+
+</style>
+
 </head>
 <body>
-<div class="loading" id="loading" role="status">正在靠近那扇窗…</div>
+<div id="viewport-size" aria-hidden="true"></div>
 <main class="world" id="world" aria-label="溯的蓝色圣堂">
   <div class="room" aria-hidden="true"></div>
   <div class="room-shade" aria-hidden="true"></div>
   <div class="mist" aria-hidden="true"></div>
   <header class="header">
     <button class="name" data-go="0" aria-label="返回开场">溯</button>
+    <button class="back-button" id="back-button" hidden>返回上一页</button>
     <span class="chapter" id="chapter"></span>
     <span class="page-count" id="page-count" aria-live="polite">01 / 09</span>
   </header>
@@ -90,22 +137,22 @@
       <div class="words" aria-label="主风格：温良、青涩、人夫；副风格：微擦、微暴、傲娇、高恋、狗塑、引导、文艺、动描">
         <span class="word" style="--x:33%;--y:29%;--size:36px;--delay:-1s">温良</span><span class="word" style="--x:29%;--y:46%;--size:33px;--delay:-3s">青涩</span><span class="word" style="--x:35%;--y:65%;--size:35px;--delay:-2s">人夫</span>
         <span class="word" style="--x:64%;--y:23%;--size:30px;--delay:-4s">微擦</span><span class="word" style="--x:73%;--y:30%;--size:28px;--delay:-1s">微暴</span><span class="word" style="--x:65%;--y:39%;--size:34px;--delay:-2s">傲娇</span><span class="word" style="--x:74%;--y:48%;--size:28px;--delay:-5s">狗塑</span><span class="word" style="--x:64%;--y:54%;--size:33px;--delay:-3s">高恋</span><span class="word" style="--x:74%;--y:64%;--size:29px;--delay:-1s">引导</span><span class="word" style="--x:64%;--y:70%;--size:31px;--delay:-2s">文艺</span><span class="word" style="--x:74%;--y:75%;--size:27px;--delay:-4s">动描</span>
-      </div><button class="return" data-go="2">返回目录</button>
+      </div><button class="return" data-go="2">返回上一页</button>
     </section>
 
     <section class="scene word-page" id="intense" aria-label="第五章，病恋风格" inert>
       <span class="side-label" style="--x:13%;--y:46%">主</span><span class="side-label" style="--x:87%;--y:46%">副</span>
       <div class="words" aria-label="主风格：下位、狗塑、无厘头、被动；副风格：高擦、低无">
         <span class="word" style="--x:34%;--y:24%;--size:35px;--delay:-1s">下位</span><span class="word" style="--x:28%;--y:39%;--size:32px;--delay:-3s">狗塑</span><span class="word" style="--x:29%;--y:57%;--size:31px;--delay:-2s">无厘头</span><span class="word" style="--x:36%;--y:70%;--size:35px;--delay:-4s">被动</span><span class="word" style="--x:70%;--y:36%;--size:35px;--delay:-2s">高擦</span><span class="word" style="--x:67%;--y:61%;--size:32px;--delay:-3s">低无</span>
-      </div><button class="return" data-go="2">返回目录</button>
+      </div><button class="return" data-go="2">返回上一页</button>
     </section>
 
     <section class="scene word-page" id="listening" aria-label="第六章，树洞" inert>
-      <div class="words"><span class="word" style="--x:31%;--y:32%;--size:35px;--delay:-1s">顺从</span><span class="word" style="--x:70%;--y:34%;--size:33px;--delay:-3s">逻辑</span><span class="word" style="--x:65%;--y:66%;--size:36px;--delay:-2s">剖析</span></div><button class="return" data-go="2">返回目录</button>
+      <div class="words"><span class="word" style="--x:31%;--y:32%;--size:35px;--delay:-1s">顺从</span><span class="word" style="--x:70%;--y:34%;--size:33px;--delay:-3s">逻辑</span><span class="word" style="--x:65%;--y:66%;--size:36px;--delay:-2s">剖析</span></div><button class="return" data-go="2">返回上一页</button>
     </section>
 
     <section class="scene word-page" id="likes" aria-label="第七章，喜点" inert>
-      <div class="words"><span class="word" style="--x:33%;--y:26%;--size:35px;--delay:-1s">引导</span><span class="word" style="--x:67%;--y:30%;--size:32px;--delay:-3s">勾引</span><span class="word" style="--x:29%;--y:54%;--size:36px;--delay:-2s">主动</span><span class="word" style="--x:70%;--y:57%;--size:33px;--delay:-4s">顺从</span><span class="word" style="--x:59%;--y:73%;--size:31px;--delay:-2s">高恋</span></div><button class="return" data-go="2">返回目录</button>
+      <div class="words"><span class="word" style="--x:33%;--y:26%;--size:35px;--delay:-1s">引导</span><span class="word" style="--x:67%;--y:30%;--size:32px;--delay:-3s">勾引</span><span class="word" style="--x:29%;--y:54%;--size:36px;--delay:-2s">主动</span><span class="word" style="--x:70%;--y:57%;--size:33px;--delay:-4s">顺从</span><span class="word" style="--x:59%;--y:73%;--size:31px;--delay:-2s">高恋</span></div><button class="return" data-go="2">返回上一页</button>
     </section>
 
     <section class="scene boundaries" id="boundaries" aria-label="第八章，雷点与须知" inert>
@@ -123,7 +170,7 @@
         <p><span>11.</span>如果在接单途中您触碰我的雷区也许我会给予一些暗示，但我希望不超过两次，三次永拒</p>
         <p><span>12.</span>如需录屏或者截屏，请告知我</p>
         <p><span>13.</span>下单默认已读须知</p>
-      </div></div><button class="return" data-go="2">返回目录</button>
+      </div></div><button class="return" data-go="2">返回上一页</button>
     </section>
 
     <section class="scene documents" id="other" aria-label="第九章，其他文档" inert>
@@ -133,10 +180,249 @@
         <a href="https://www.kdocs.cn/l/ceHvsnEF2gUL" target="_blank" rel="noopener noreferrer"><span class="doc-number">03</span><span>头牌卡</span><span class="doc-action">打开文档</span></a>
         <a href="https://www.kdocs.cn/l/cdCV0TjiYyBF" target="_blank" rel="noopener noreferrer"><span class="doc-number">04</span><span>冠名卡</span><span class="doc-action">打开文档</span></a>
         <a href="https://www.kdocs.cn/l/cpNnmfFvAgfH" target="_blank" rel="noopener noreferrer"><span class="doc-number">05</span><span>板评</span><span class="doc-action">打开文档</span></a>
-      </nav><button class="return" data-go="2">返回目录</button>
+      </nav><button class="return" data-go="2">返回上一页</button>
     </section>
   </div>
   <button class="motion-toggle" id="motion-toggle" aria-pressed="false" title="暂停或开启动态效果">暂停动态</button>
 </main>
 <noscript><div class="no-script">请启用 JavaScript 查看九页互动资料。<a href="https://www.kdocs.cn/l/cmYuJkYR8P2Y">查看随笔</a></div></noscript>
+<script>
+(() => {
+  'use strict';
+  const world = document.querySelector('#world');
+  const scenes = [...document.querySelectorAll('.scene')];
+  const cross = document.querySelector('#cross-scene');
+  const pageCount = document.querySelector('#page-count');
+  const chapter = document.querySelector('#chapter');
+  const motionToggle = document.querySelector('#motion-toggle');
+  const backButton = document.querySelector('#back-button');
+  const viewportSize = document.querySelector('#viewport-size');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const titles = ['', '', '', '虚恋', '病恋', '树洞', '喜点', '雷点 / 须知', '其他'];
+  const narratives = [
+    '我到了一个奇怪的地方，这里凭空出现了一扇巨大的窗户。',
+    '神像上似乎刻画着一些文字 触碰的时候有许多灰尘',
+    '…？这都是什么 算了 都试试看吧'
+  ];
+  let current = 0;
+  let turnTimer = null;
+  let choiceTimer = null;
+  let cleanupTimer = null;
+  let stormTimer = null;
+  let typing = false;
+  let paused = reduced.matches;
+  let portrait = false;
+  let inputStart = null;
+
+  function restoreViewport() {
+    world.scrollLeft = 0;
+    world.scrollTop = 0;
+    document.documentElement.scrollLeft = 0;
+    document.documentElement.scrollTop = 0;
+    document.body.scrollLeft = 0;
+    document.body.scrollTop = 0;
+  }
+
+  function fit() {
+    const bounds = viewportSize.getBoundingClientRect();
+    const width = bounds.width;
+    const height = bounds.height;
+    portrait = height > width;
+    const portraitHeight = Math.max(1600, height * 900 / width);
+    const scale = portrait ? Math.min(width / 900, height / portraitHeight) : Math.min(width / 1600, height / 900);
+    world.style.setProperty('--portrait-height', portraitHeight + 'px');
+    world.style.setProperty('--scale', String(scale));
+    world.style.setProperty('--rotation', '0deg');
+    world.style.top = (height / 2) + 'px';
+  }
+
+  function unlockChoices(index) {
+    const choices = document.querySelector('#choices-' + index);
+    if (!choices) return;
+    choices.inert = false;
+    choices.classList.add('ready');
+  }
+
+  function finishNarration() {
+    if (current > 2) return;
+    clearTimeout(turnTimer);
+    clearTimeout(choiceTimer);
+    const typed = document.querySelector('#narration-' + current + ' .typed');
+    typed.textContent = narratives[current];
+    typed.classList.remove('typing');
+    typing = false;
+    unlockChoices(current);
+  }
+
+  function startNarration(index) {
+    if (index > 2) return;
+    const typed = document.querySelector('#narration-' + index + ' .typed');
+    const choices = document.querySelector('#choices-' + index);
+    if (choices) {
+      choices.inert = true;
+      choices.classList.remove('ready');
+    }
+    typed.textContent = '';
+    typed.classList.remove('typing');
+    if (reduced.matches || paused) {
+      finishNarration();
+      return;
+    }
+    typing = true;
+    typed.classList.add('typing');
+    let cursor = 0;
+    const letters = [...narratives[index]];
+    function tick() {
+      if (index !== current) return;
+      if (document.hidden) { turnTimer = setTimeout(tick, 200); return; }
+      cursor += 1;
+      typed.textContent = letters.slice(0, cursor).join('');
+      if (cursor < letters.length) {
+        turnTimer = setTimeout(tick, /[。，？]/.test(letters[cursor - 1]) ? 260 : 74);
+      } else {
+        typed.classList.remove('typing');
+        typing = false;
+        choiceTimer = setTimeout(() => { if (current === index) unlockChoices(index); }, 350);
+      }
+    }
+    turnTimer = setTimeout(tick, 500);
+  }
+
+  function show(index, updateHash = true, animate = true) {
+    if (!Number.isInteger(index) || index < 0 || index >= scenes.length) return;
+    clearTimeout(turnTimer);
+    clearTimeout(choiceTimer);
+    clearTimeout(cleanupTimer);
+    const oldIndex = current;
+    const direction = index >= oldIndex ? 1 : -1;
+    scenes.forEach((scene, i) => {
+      scene.classList.remove('enter-left', 'exit-left', 'exit-right');
+      scene.inert = i !== index;
+      if (i !== oldIndex && i !== index) scene.classList.remove('active');
+    });
+    const old = scenes[oldIndex];
+    const incoming = scenes[index];
+    current = index;
+    if (old !== incoming && animate && !reduced.matches && !paused) {
+      world.classList.add('turning');
+      incoming.classList.add('no-transition');
+      incoming.classList.remove('active');
+      if (direction < 0) incoming.classList.add('enter-left');
+      void incoming.offsetWidth;
+      incoming.classList.remove('no-transition');
+      old.classList.remove('active');
+      old.classList.add(direction > 0 ? 'exit-left' : 'exit-right');
+      incoming.classList.remove('enter-left');
+      incoming.classList.add('active');
+      cleanupTimer = setTimeout(() => {
+        old.classList.remove('exit-left', 'exit-right');
+        world.classList.remove('turning');
+      }, 700);
+    } else {
+      world.classList.remove('turning');
+      scenes.forEach((scene, i) => {
+        scene.classList.add('no-transition');
+        scene.classList.toggle('active', i === index);
+      });
+      void world.offsetWidth;
+      scenes.forEach(scene => scene.classList.remove('no-transition'));
+    }
+    cross.classList.toggle('visible', index >= 2 && index <= 6);
+    cross.classList.toggle('hub', index === 2);
+    world.classList.toggle('story', index < 2);
+    chapter.textContent = titles[index];
+    pageCount.textContent = String(index + 1).padStart(2, '0') + ' / 09';
+    document.title = index <= 2 ? '溯 · 蓝色圣堂' : '溯 · ' + titles[index];
+    backButton.hidden = index === 0;
+    if (updateHash && location.hash !== '#' + incoming.id) history.pushState(null, '', '#' + incoming.id);
+    startNarration(index);
+    restoreViewport();
+    requestAnimationFrame(restoreViewport);
+  }
+
+  function goDelta(delta) {
+    if (typing) { finishNarration(); return; }
+    if (current < 2) { if (delta > 0) show(current + 1); else if (current > 0) show(current - 1); return; }
+    if (current === 2) { if (delta > 0) show(3); else show(1); return; }
+    if (current === 3 && delta < 0) { show(2); return; }
+    show(current + delta);
+  }
+
+  document.querySelectorAll('[data-go]').forEach(button => {
+    button.addEventListener('click', () => show(Number(button.dataset.go)));
+  });
+  backButton.addEventListener('click', () => show(current > 2 ? 2 : current - 1));
+  document.querySelectorAll('.narration-text').forEach(button => button.addEventListener('click', finishNarration));
+  document.addEventListener('keydown', event => {
+    if (event.altKey || event.ctrlKey || event.metaKey) return;
+    if (event.key === 'ArrowRight') { event.preventDefault(); goDelta(1); }
+    if (event.key === 'ArrowLeft') { event.preventDefault(); goDelta(-1); }
+    if (event.key === 'Escape' && current > 2) show(2);
+  });
+
+  world.addEventListener('pointerdown', event => {
+    inputStart = world.classList.contains('turning') || event.target.closest('button, a') ? null : { x: event.clientX, y: event.clientY };
+  });
+  world.addEventListener('pointerup', event => {
+    if (!inputStart) return;
+    const dx = event.clientX - inputStart.x;
+    const dy = event.clientY - inputStart.y;
+    inputStart = null;
+    if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+      event.preventDefault();
+      goDelta(dx < 0 ? 1 : -1);
+    }
+  });
+  world.addEventListener('pointercancel', () => { inputStart = null; });
+
+  function scheduleStorm() {
+    clearTimeout(stormTimer);
+    stormTimer = setTimeout(() => {
+      if (current === 0 && !paused && !document.hidden) {
+        const opening = scenes[0];
+        opening.classList.remove('flash');
+        void opening.offsetWidth;
+        opening.classList.add('flash');
+      }
+      scheduleStorm();
+    }, 8000 + Math.random() * 11000);
+  }
+
+  function setMotion(value) {
+    paused = value;
+    world.classList.toggle('paused', paused);
+    motionToggle.setAttribute('aria-pressed', String(paused));
+    motionToggle.textContent = paused ? '开启动效' : '暂停动态';
+    if (paused && typing) finishNarration();
+  }
+  motionToggle.addEventListener('click', () => setMotion(!paused));
+  reduced.addEventListener('change', event => setMotion(event.matches));
+  const dust = document.querySelector('#dust');
+  for (let i = 0; i < 24; i += 1) {
+    const dot = document.createElement('i');
+    dot.style.left = (8 + Math.random() * 84) + '%';
+    dot.style.top = (10 + Math.random() * 80) + '%';
+    dot.style.animationDelay = (-Math.random() * 25) + 's';
+    dot.style.animationDuration = (19 + Math.random() * 17) + 's';
+    dust.append(dot);
+  }
+  const startId = location.hash.slice(1);
+  const startIndex = scenes.findIndex(scene => scene.id === startId);
+  fit();
+  setMotion(paused);
+  show(startIndex >= 0 ? startIndex : 0, false, false);
+  window.addEventListener('resize', fit);
+  window.addEventListener('load', restoreViewport);
+  world.addEventListener('scroll', restoreViewport);
+  window.addEventListener('orientationchange', fit);
+  window.visualViewport?.addEventListener('resize', fit);
+  window.addEventListener('hashchange', () => {
+    const index = scenes.findIndex(scene => scene.id === location.hash.slice(1));
+    if (index >= 0 && index !== current) show(index, false);
+  });
+  window.addEventListener('pageshow', () => { fit(); restoreViewport(); });
+  scheduleStorm();
+})();
+
+</script>
 </body></html>
