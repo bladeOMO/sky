@@ -1,7 +1,8 @@
 (() => {
   'use strict';
   const world = document.querySelector('#world');
-  const scenes = [...document.querySelectorAll('.scene')];
+  const COVER = 10;
+  const scenes = [...document.querySelectorAll('.scene:not(.cover)'), document.querySelector('#cover')];
   const cross = document.querySelector('#cross-scene');
   const pageCount = document.querySelector('#page-count');
   const chapter = document.querySelector('#chapter');
@@ -11,13 +12,21 @@
   const endingLines = [...document.querySelector('#ending-text').children];
   const endingControl = document.querySelector('#ending-control');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  document.querySelectorAll('.art-image').forEach(image => {
+    async function revealImage() {
+      try { if (image.decode) await image.decode(); } catch (_) {}
+      if (image.naturalWidth > 0) image.classList.add('art-ready');
+    }
+    image.addEventListener('load', revealImage);
+    if (image.complete) revealImage();
+  });
   const titles = ['', '', '', '虚恋', '病恋', '树洞', '喜点', '雷点 / 须知', '其他', 'END'];
   const narratives = [
     '我到了一个奇怪的地方，这里凭空出现了一扇巨大的窗户。',
     '神像上似乎刻画着一些文字 触碰的时候有许多灰尘',
     '…？这都是什么 算了 都试试看吧'
   ];
-  let current = 0;
+  let current = COVER;
   let turnTimer = null;
   let choiceTimer = null;
   let cleanupTimer = null;
@@ -29,6 +38,122 @@
   let endingTimer = null;
   let endingComplete = false;
   let endingReturn = 2;
+  const coverCopy = document.querySelector('#cover-copy');
+  const coverTyped = document.querySelector('.cover-typed');
+  const coverChoices = document.querySelector('#cover-choices');
+  const fog = document.querySelector('#cover-fog');
+  const fogContext = fog.getContext('2d');
+  const coverText = '一颗心脏重250g，一朵玫瑰重2g\n你是愿意选择用一颗心脏换取一百朵玫瑰\n亦或者用一百朵玫瑰换取一颗心脏?';
+  let coverTimer = null;
+  let fogFrame = null;
+  let coverPhase = 'typing';
+
+  function stopCover() {
+    clearTimeout(coverTimer);
+    cancelAnimationFrame(fogFrame);
+  }
+
+  function showCoverChoices(keepText = false) {
+    stopCover();
+    coverPhase = 'ready';
+    if (fogContext) fogContext.clearRect(0, 0, fog.width, fog.height);
+    fog.classList.add('cleared');
+    if (!keepText) coverCopy.classList.add('finished');
+    coverChoices.inert = false;
+    coverChoices.classList.add('ready');
+  }
+
+  function paintFog() {
+    fog.width = portrait ? 450 : 720;
+    fog.height = Math.round(fog.width * world.clientHeight / world.clientWidth);
+    if (!fogContext) return;
+    fogContext.globalCompositeOperation = 'source-over';
+    fogContext.fillStyle = 'rgba(8, 17, 37, .78)';
+    fogContext.fillRect(0, 0, fog.width, fog.height);
+    const glow = fogContext.createRadialGradient(fog.width * .5, fog.height * .4, 0, fog.width * .5, fog.height * .4, fog.height * .75);
+    glow.addColorStop(0, 'rgba(116, 139, 172, .18)');
+    glow.addColorStop(1, 'rgba(8, 17, 37, 0)');
+    fogContext.fillStyle = glow;
+    fogContext.fillRect(0, 0, fog.width, fog.height);
+  }
+
+  function wipeFog() {
+    if (current !== COVER) return;
+    coverPhase = 'wiping';
+    coverCopy.classList.add('finished');
+    if (paused || reduced.matches || !fogContext) { showCoverChoices(paused || reduced.matches); return; }
+    const w = fog.width, h = fog.height;
+    const radius = Math.min(w, h) * .27;
+    const points = [];
+    for (let row = 0; row <= 7; row += 1) {
+      const y = row * h / 7;
+      points.push({ x: row % 2 ? w + radius : -radius, y });
+      points.push({ x: row % 2 ? -radius : w + radius, y });
+    }
+    const lengths = points.slice(1).map((p, i) => Math.hypot(p.x - points[i].x, p.y - points[i].y));
+    const total = lengths.reduce((a, b) => a + b, 0);
+    function erase(distance) {
+      let segment = 0;
+      while (segment < lengths.length - 1 && distance > lengths[segment]) distance -= lengths[segment++];
+      const a = points[segment], b = points[segment + 1];
+      const t = Math.min(1, distance / lengths[segment]);
+      const x = a.x + (b.x - a.x) * t, y = a.y + (b.y - a.y) * t;
+      const brush = fogContext.createRadialGradient(x, y, 0, x, y, radius);
+      brush.addColorStop(0, 'rgba(0,0,0,1)');
+      brush.addColorStop(.72, 'rgba(0,0,0,1)');
+      brush.addColorStop(1, 'rgba(0,0,0,0)');
+      fogContext.globalCompositeOperation = 'destination-out';
+      fogContext.fillStyle = brush;
+      fogContext.fillRect(x - radius, y - radius, radius * 2, radius * 2);
+    }
+    let elapsed = 0, last = null, erased = 0, lastPaint = 0;
+    function frame(now) {
+      if (current !== COVER) return;
+      if (last !== null && !document.hidden) elapsed += now - last;
+      last = now;
+      if (now - lastPaint > 32) {
+        const target = Math.min(1, elapsed / 3900) * total;
+        for (let d = erased; d < target; d += radius * .18) erase(d);
+        erased = target;
+        lastPaint = now;
+      }
+      if (elapsed >= 3900) { showCoverChoices(); return; }
+      fogFrame = requestAnimationFrame(frame);
+    }
+    fogFrame = requestAnimationFrame(frame);
+  }
+
+  function finishCoverText() {
+    if (current !== COVER || coverPhase !== 'typing') return;
+    clearTimeout(coverTimer);
+    coverTyped.textContent = coverText;
+    coverPhase = 'reading';
+    if (paused || reduced.matches) showCoverChoices(true);
+    else coverTimer = setTimeout(wipeFog, 1800);
+  }
+
+  function startCover() {
+    stopCover();
+    coverPhase = 'typing';
+    coverCopy.classList.remove('finished');
+    coverChoices.classList.remove('ready');
+    coverChoices.inert = true;
+    fog.classList.remove('cleared');
+    paintFog();
+    coverTyped.textContent = '';
+    if (paused || reduced.matches) { finishCoverText(); return; }
+    const letters = [...coverText];
+    let cursor = 0;
+    function tick() {
+      if (current !== COVER) return;
+      if (document.hidden) { coverTimer = setTimeout(tick, 200); return; }
+      coverTyped.textContent = letters.slice(0, ++cursor).join('');
+      if (cursor === letters.length) finishCoverText();
+      else coverTimer = setTimeout(tick, /[，?\n]/.test(letters[cursor - 1]) ? 260 : 72);
+    }
+    coverTimer = setTimeout(tick, 450);
+  }
+  coverCopy.addEventListener('click', finishCoverText);
 
   function finishEnding() {
     clearTimeout(endingTimer);
@@ -61,7 +186,7 @@
   endingControl.addEventListener('click', () => endingComplete ? startEnding() : finishEnding());
 
   function previousPage() {
-    return current === 9 ? endingReturn : current > 2 ? 2 : current - 1;
+    return current === 9 ? endingReturn : current === 0 ? COVER : current > 2 ? 2 : current - 1;
   }
 
   function restoreViewport() {
@@ -144,10 +269,11 @@
     clearTimeout(choiceTimer);
     clearTimeout(cleanupTimer);
     clearTimeout(endingTimer);
+    stopCover();
     typing = false;
     const oldIndex = current;
     if (index === 9 && oldIndex !== 9 && animate) endingReturn = oldIndex;
-    const direction = index >= oldIndex ? 1 : -1;
+    const direction = (index === COVER ? -1 : index) >= (oldIndex === COVER ? -1 : oldIndex) ? 1 : -1;
     scenes.forEach((scene, i) => {
       scene.classList.remove('enter-left', 'exit-left', 'exit-right');
       scene.inert = i !== index;
@@ -183,18 +309,20 @@
     cross.classList.toggle('visible', index >= 2 && index <= 6);
     cross.classList.toggle('hub', index === 2);
     world.classList.toggle('story', index < 2);
-    chapter.textContent = titles[index];
-    pageCount.textContent = String(index + 1).padStart(2, '0') + ' / ' + String(scenes.length).padStart(2, '0');
-    document.title = index <= 2 ? '溯 · 蓝色圣堂' : '溯 · ' + titles[index];
-    backButton.hidden = index === 0;
+    chapter.textContent = titles[index] || '';
+    pageCount.textContent = String(index === COVER ? 1 : index + 2).padStart(2, '0') + ' / ' + String(scenes.length).padStart(2, '0');
+    document.title = index <= 2 || index === COVER ? '溯 · 蓝色圣堂' : '溯 · ' + titles[index];
+    backButton.hidden = index === COVER;
     if (updateHash && location.hash !== '#' + incoming.id) history.pushState(null, '', '#' + incoming.id);
     startNarration(index);
     if (index === 9) startEnding();
+    if (index === COVER) startCover();
     restoreViewport();
     requestAnimationFrame(restoreViewport);
   }
 
   function goDelta(delta) {
+    if (current === COVER) { finishCoverText(); return; }
     if (current === 9) {
       if (delta < 0) show(endingReturn);
       else if (!endingComplete) finishEnding();
@@ -216,7 +344,7 @@
     if (event.altKey || event.ctrlKey || event.metaKey) return;
     if (event.key === 'ArrowRight') { event.preventDefault(); goDelta(1); }
     if (event.key === 'ArrowLeft') { event.preventDefault(); goDelta(-1); }
-    if (event.key === 'Escape' && current > 2) show(previousPage());
+    if (event.key === 'Escape' && current > 2 && current !== COVER) show(previousPage());
   });
 
   world.addEventListener('pointerdown', event => {
@@ -254,6 +382,7 @@
     motionToggle.textContent = paused ? '开启动效' : '暂停动态';
     if (paused && typing) finishNarration();
     if (paused && current === 9) finishEnding();
+    if (paused && current === COVER) { coverTyped.textContent = coverText; showCoverChoices(true); }
   }
   motionToggle.addEventListener('click', () => setMotion(!paused));
   reduced.addEventListener('change', event => setMotion(event.matches));
@@ -270,7 +399,7 @@
   const startIndex = scenes.findIndex(scene => scene.id === startId);
   fit();
   setMotion(paused);
-  show(startIndex >= 0 ? startIndex : 0, false, false);
+  show(startIndex >= 0 ? startIndex : COVER, false, false);
   window.addEventListener('resize', fit);
   window.addEventListener('load', restoreViewport);
   world.addEventListener('scroll', restoreViewport);
