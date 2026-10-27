@@ -12,6 +12,54 @@
   const endingLines = [...document.querySelector('#ending-text').children];
   const endingControl = document.querySelector('#ending-control');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const music = document.querySelector('#background-music');
+  const musicToggle = document.querySelector('#music-toggle');
+  let musicWanted = true;
+  music.volume = .5;
+
+  function updateMusic(state) {
+    const labels = { loading: '音乐缓冲中', playing: '暂停音乐', paused: '播放音乐', blocked: '播放音乐', error: '重试音乐' };
+    musicToggle.textContent = labels[state];
+    musicToggle.dataset.state = state;
+    musicToggle.setAttribute('aria-pressed', String(state === 'playing' || state === 'loading'));
+    musicToggle.setAttribute('aria-label', state === 'playing' || state === 'loading' ? '暂停背景音乐 BLUFF' : '播放背景音乐 BLUFF');
+  }
+
+  function playMusic() {
+    if (!musicWanted || !music.paused) return;
+    updateMusic('loading');
+    try {
+      const result = music.play();
+      if (result) result.catch(error => {
+        if (!musicWanted) updateMusic('paused');
+        else if (music.paused) updateMusic(error.name === 'NotAllowedError' ? 'blocked' : 'error');
+      });
+    } catch (_) { updateMusic('blocked'); }
+  }
+
+  music.addEventListener('playing', () => updateMusic('playing'));
+  music.addEventListener('waiting', () => { if (musicWanted) updateMusic('loading'); });
+  music.addEventListener('pause', () => updateMusic('paused'));
+  music.addEventListener('error', () => updateMusic('error'));
+  musicToggle.addEventListener('click', () => {
+    if (musicWanted && !music.paused) {
+      musicWanted = false;
+      music.pause();
+      updateMusic('paused');
+    } else {
+      musicWanted = true;
+      if (music.error) music.load();
+      playMusic();
+    }
+  });
+  function unlockMusic(event) {
+    if (!event.target.closest('#music-toggle') && (event.type !== 'keydown' || !event.ctrlKey && !event.metaKey && !event.altKey)) playMusic();
+  }
+  document.addEventListener('pointerdown', unlockMusic, { capture: true, passive: true });
+  document.addEventListener('touchend', unlockMusic, { capture: true, passive: true });
+  document.addEventListener('keydown', unlockMusic, { capture: true });
+  window.addEventListener('pageshow', () => { if (musicWanted) playMusic(); });
+  playMusic();
   document.querySelectorAll('.art-image').forEach(image => {
     async function revealImage() {
       try { if (image.decode) await image.decode(); } catch (_) {}

@@ -66,12 +66,15 @@
 @media(orientation:portrait){.cover-copy{top:40%;left:70px;right:70px;font-size:38px;line-height:2.15;letter-spacing:2px}.cover-typed{min-height:460px}.cover-choices{left:70px;right:70px;bottom:215px}.cover-choices p{font-size:36px;letter-spacing:2px;line-height:1.8;margin-bottom:40px}.cover-choices .choice-row button{min-width:260px}.cover-picture .art-image{object-position:center}}
 
 .cover-copy.wiping{pointer-events:none}.cover-copy.wiping .cover-typed{-webkit-mask-image:linear-gradient(112deg,transparent calc(var(--wipe,-10%) - 6%),#000 calc(var(--wipe,-10%) + 6%));mask-image:linear-gradient(112deg,transparent calc(var(--wipe,-10%) - 6%),#000 calc(var(--wipe,-10%) + 6%));-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.music-toggle{position:absolute;left:65px;bottom:20px;z-index:20;min-height:44px;padding:10px 15px;font-size:16px;letter-spacing:2px;color:#c0cde0;border:1px solid #8ba5c34d;background:#06122a8c}.music-toggle:hover{background:#19305199;color:#edf2fa}.music-toggle[data-state="loading"]{color:#9cafd0}
+@media(orientation:portrait){.music-toggle{left:32px;bottom:8px;min-height:104px;min-width:225px;font-size:28px;letter-spacing:1px;padding:18px 22px}}
 
 </style>
 
 </head>
 <body>
 <div id="viewport-size" aria-hidden="true"></div>
+<audio id="background-music" src="assets/bluff.mp3" preload="auto" autoplay loop playsinline aria-label="背景音乐 BLUFF"></audio>
 <main class="world" id="world" aria-label="溯的蓝色圣堂">
   <div class="room" aria-hidden="true" style="background-image:url(data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAADwBACdASowABsAPwF0rVGrJyQiqrgMAWAgCWMArAAL7/XtnP8pJw12WJcxpd/VAqAA/vDmh1kvyyhxEfCB5X/PFZWpBRm9UtDI2ECacjrjGIcgeThimjpn7XWhuQXlT/f5cl0C2qAjNrGZQ87LqbW4VdybqSsfmuOQHHY5zki2S768t/KAAA==)"><picture><source media="(max-aspect-ratio: 9/16)" srcset="assets/room-mobile.webp"><img class="art-image" src="assets/room-fast.webp" alt="" width="1672" height="941" decoding="async" fetchpriority="low"></picture></div>
   <div class="room-shade" aria-hidden="true"></div>
@@ -224,6 +227,7 @@
       <button class="ending-control" id="ending-control">显示全文</button>
     </section>
   </div>
+  <button class="music-toggle" id="music-toggle" type="button" aria-label="播放背景音乐 BLUFF" aria-pressed="false">播放音乐</button>
   <button class="motion-toggle" id="motion-toggle" aria-pressed="false" title="暂停或开启动态效果">暂停动态</button>
 </main>
 <noscript><div class="no-script">请启用 JavaScript 查看互动资料。<a href="https://www.kdocs.cn/l/cmYuJkYR8P2Y">查看随笔</a></div></noscript>
@@ -242,6 +246,54 @@
   const endingLines = [...document.querySelector('#ending-text').children];
   const endingControl = document.querySelector('#ending-control');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const music = document.querySelector('#background-music');
+  const musicToggle = document.querySelector('#music-toggle');
+  let musicWanted = true;
+  music.volume = .5;
+
+  function updateMusic(state) {
+    const labels = { loading: '音乐缓冲中', playing: '暂停音乐', paused: '播放音乐', blocked: '播放音乐', error: '重试音乐' };
+    musicToggle.textContent = labels[state];
+    musicToggle.dataset.state = state;
+    musicToggle.setAttribute('aria-pressed', String(state === 'playing' || state === 'loading'));
+    musicToggle.setAttribute('aria-label', state === 'playing' || state === 'loading' ? '暂停背景音乐 BLUFF' : '播放背景音乐 BLUFF');
+  }
+
+  function playMusic() {
+    if (!musicWanted || !music.paused) return;
+    updateMusic('loading');
+    try {
+      const result = music.play();
+      if (result) result.catch(error => {
+        if (!musicWanted) updateMusic('paused');
+        else if (music.paused) updateMusic(error.name === 'NotAllowedError' ? 'blocked' : 'error');
+      });
+    } catch (_) { updateMusic('blocked'); }
+  }
+
+  music.addEventListener('playing', () => updateMusic('playing'));
+  music.addEventListener('waiting', () => { if (musicWanted) updateMusic('loading'); });
+  music.addEventListener('pause', () => updateMusic('paused'));
+  music.addEventListener('error', () => updateMusic('error'));
+  musicToggle.addEventListener('click', () => {
+    if (musicWanted && !music.paused) {
+      musicWanted = false;
+      music.pause();
+      updateMusic('paused');
+    } else {
+      musicWanted = true;
+      if (music.error) music.load();
+      playMusic();
+    }
+  });
+  function unlockMusic(event) {
+    if (!event.target.closest('#music-toggle') && (event.type !== 'keydown' || !event.ctrlKey && !event.metaKey && !event.altKey)) playMusic();
+  }
+  document.addEventListener('pointerdown', unlockMusic, { capture: true, passive: true });
+  document.addEventListener('touchend', unlockMusic, { capture: true, passive: true });
+  document.addEventListener('keydown', unlockMusic, { capture: true });
+  window.addEventListener('pageshow', () => { if (musicWanted) playMusic(); });
+  playMusic();
   document.querySelectorAll('.art-image').forEach(image => {
     async function revealImage() {
       try { if (image.decode) await image.decode(); } catch (_) {}
