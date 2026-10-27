@@ -264,14 +264,20 @@
     updateMusic('loading');
     try {
       const result = music.play();
-      if (result) result.catch(error => {
+      if (result) result.then(() => {
+        if (!musicWanted) music.pause();
+        else updateMusic('playing');
+      }).catch(error => {
         if (!musicWanted) updateMusic('paused');
         else if (music.paused) updateMusic(error.name === 'NotAllowedError' ? 'blocked' : 'error');
       });
     } catch (_) { updateMusic('blocked'); }
   }
 
-  music.addEventListener('playing', () => updateMusic('playing'));
+  music.addEventListener('playing', () => {
+    if (!musicWanted) music.pause();
+    else updateMusic('playing');
+  });
   music.addEventListener('waiting', () => { if (musicWanted) updateMusic('loading'); });
   music.addEventListener('pause', () => updateMusic('paused'));
   music.addEventListener('error', () => updateMusic('error'));
@@ -293,6 +299,29 @@
   document.addEventListener('touchend', unlockMusic, { capture: true, passive: true });
   document.addEventListener('keydown', unlockMusic, { capture: true });
   window.addEventListener('pageshow', () => { if (musicWanted) playMusic(); });
+  window.addEventListener('load', playMusic, { once: true });
+  window.addEventListener('focus', playMusic);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) playMusic(); });
+  ['loadeddata', 'canplay', 'canplaythrough'].forEach(name => music.addEventListener(name, playMusic, { once: true }));
+  let wechatBridgeTried = false;
+  function playInWechat() {
+    if (!musicWanted || !music.paused) return;
+    playMusic();
+    const bridge = window.WeixinJSBridge;
+    if (wechatBridgeTried || !bridge || typeof bridge.invoke !== 'function') return;
+    wechatBridgeTried = true;
+    try {
+      // Tencent's libpag uses this native callback to initialize WeChat media playback.
+      // No network-type information is stored or transmitted.
+      bridge.invoke('getNetworkType', {}, () => { if (musicWanted) playMusic(); });
+    } catch (_) { playMusic(); }
+  }
+  document.addEventListener('WeixinJSBridgeReady', playInWechat);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', playInWechat, { once: true });
+  else playInWechat();
+  [300, 1200, 3000, 6000].forEach(delay => setTimeout(() => {
+    if (!document.hidden && musicWanted && music.paused) playInWechat();
+  }, delay));
   playMusic();
   document.querySelectorAll('.art-image').forEach(image => {
     async function revealImage() {
