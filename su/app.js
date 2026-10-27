@@ -8,8 +8,10 @@
   const motionToggle = document.querySelector('#motion-toggle');
   const backButton = document.querySelector('#back-button');
   const viewportSize = document.querySelector('#viewport-size');
+  const endingLines = [...document.querySelector('#ending-text').children];
+  const endingControl = document.querySelector('#ending-control');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const titles = ['', '', '', '虚恋', '病恋', '树洞', '喜点', '雷点 / 须知', '其他'];
+  const titles = ['', '', '', '虚恋', '病恋', '树洞', '喜点', '雷点 / 须知', '其他', 'END'];
   const narratives = [
     '我到了一个奇怪的地方，这里凭空出现了一扇巨大的窗户。',
     '神像上似乎刻画着一些文字 触碰的时候有许多灰尘',
@@ -24,6 +26,43 @@
   let paused = reduced.matches;
   let portrait = false;
   let inputStart = null;
+  let endingTimer = null;
+  let endingComplete = false;
+  let endingReturn = 2;
+
+  function finishEnding() {
+    clearTimeout(endingTimer);
+    endingLines.forEach(line => line.classList.add('revealed'));
+    endingComplete = true;
+    endingControl.textContent = '重看结尾';
+  }
+
+  function startEnding() {
+    clearTimeout(endingTimer);
+    endingComplete = false;
+    endingControl.textContent = '显示全文';
+    endingLines.forEach(line => line.classList.remove('revealed'));
+    if (paused || reduced.matches) { finishEnding(); return; }
+    let cursor = 0;
+    function reveal() {
+      if (current !== 9) return;
+      if (document.hidden) { endingTimer = setTimeout(reveal, 250); return; }
+      endingLines[cursor].classList.add('revealed');
+      cursor += 1;
+      if (cursor === endingLines.length) {
+        endingComplete = true;
+        endingControl.textContent = '重看结尾';
+      } else {
+        endingTimer = setTimeout(reveal, cursor === 1 || cursor >= 10 ? 1800 : 1250);
+      }
+    }
+    endingTimer = setTimeout(reveal, 900);
+  }
+  endingControl.addEventListener('click', () => endingComplete ? startEnding() : finishEnding());
+
+  function previousPage() {
+    return current === 9 ? endingReturn : current > 2 ? 2 : current - 1;
+  }
 
   function restoreViewport() {
     world.scrollLeft = 0;
@@ -104,7 +143,10 @@
     clearTimeout(turnTimer);
     clearTimeout(choiceTimer);
     clearTimeout(cleanupTimer);
+    clearTimeout(endingTimer);
+    typing = false;
     const oldIndex = current;
+    if (index === 9 && oldIndex !== 9 && animate) endingReturn = oldIndex;
     const direction = index >= oldIndex ? 1 : -1;
     scenes.forEach((scene, i) => {
       scene.classList.remove('enter-left', 'exit-left', 'exit-right');
@@ -142,16 +184,22 @@
     cross.classList.toggle('hub', index === 2);
     world.classList.toggle('story', index < 2);
     chapter.textContent = titles[index];
-    pageCount.textContent = String(index + 1).padStart(2, '0') + ' / 09';
+    pageCount.textContent = String(index + 1).padStart(2, '0') + ' / ' + String(scenes.length).padStart(2, '0');
     document.title = index <= 2 ? '溯 · 蓝色圣堂' : '溯 · ' + titles[index];
     backButton.hidden = index === 0;
     if (updateHash && location.hash !== '#' + incoming.id) history.pushState(null, '', '#' + incoming.id);
     startNarration(index);
+    if (index === 9) startEnding();
     restoreViewport();
     requestAnimationFrame(restoreViewport);
   }
 
   function goDelta(delta) {
+    if (current === 9) {
+      if (delta < 0) show(endingReturn);
+      else if (!endingComplete) finishEnding();
+      return;
+    }
     if (typing) { finishNarration(); return; }
     if (current < 2) { if (delta > 0) show(current + 1); else if (current > 0) show(current - 1); return; }
     if (current === 2) { if (delta > 0) show(3); else show(1); return; }
@@ -162,13 +210,13 @@
   document.querySelectorAll('[data-go]').forEach(button => {
     button.addEventListener('click', () => show(Number(button.dataset.go)));
   });
-  backButton.addEventListener('click', () => show(current > 2 ? 2 : current - 1));
+  backButton.addEventListener('click', () => show(previousPage()));
   document.querySelectorAll('.narration-text').forEach(button => button.addEventListener('click', finishNarration));
   document.addEventListener('keydown', event => {
     if (event.altKey || event.ctrlKey || event.metaKey) return;
     if (event.key === 'ArrowRight') { event.preventDefault(); goDelta(1); }
     if (event.key === 'ArrowLeft') { event.preventDefault(); goDelta(-1); }
-    if (event.key === 'Escape' && current > 2) show(2);
+    if (event.key === 'Escape' && current > 2) show(previousPage());
   });
 
   world.addEventListener('pointerdown', event => {
@@ -205,6 +253,7 @@
     motionToggle.setAttribute('aria-pressed', String(paused));
     motionToggle.textContent = paused ? '开启动效' : '暂停动态';
     if (paused && typing) finishNarration();
+    if (paused && current === 9) finishEnding();
   }
   motionToggle.addEventListener('click', () => setMotion(!paused));
   reduced.addEventListener('change', event => setMotion(event.matches));

@@ -53,6 +53,14 @@
 }
 
 .world.turning .scene{pointer-events:none!important}
+.end-entry{position:absolute;left:50%;top:678px;transform:translateX(-50%);min-width:160px;min-height:48px;border:1px solid #8faace70;background:#06132d85;font-family:Georgia,serif;font-size:22px;letter-spacing:5px;padding:10px 28px;transition:background .3s,border-color .3s}
+.end-entry:hover{background:#25325390;border-color:#bec5e5}.ending-shade{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,#060c1dd9,#02040dee)}
+.ending-text{position:absolute;left:220px;right:220px;top:130px;bottom:140px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:7px;text-align:center;letter-spacing:1.5px;color:#c9d3e4}
+.ending-text>*{opacity:0;transform:translateY(9px);transition:opacity 1.6s ease,transform 1.6s ease}.ending-text>.revealed{opacity:1;transform:translateY(0)}
+.ending-text h1{font-size:34px;font-weight:400;line-height:1.6;margin:0 0 25px;letter-spacing:4px;color:#e6eaf2}.ending-text p{font-size:23px;line-height:1.75;margin:0;max-width:100%}.ending-text .ending-last{color:#e2e6ef}.ending-text p:nth-last-child(2){margin-top:16px}
+.ending-control{position:absolute;left:50%;bottom:67px;transform:translateX(-50%);font-size:18px;letter-spacing:3px;color:#9cabc3;min-height:48px;padding:10px 18px;border-bottom:1px solid #96adcc50}
+@media(orientation:portrait){.end-entry{top:auto;bottom:300px;min-width:250px;min-height:100px;font-size:32px;padding:20px 35px}.ending-text{left:65px;right:65px;top:200px;bottom:205px;gap:13px;letter-spacing:1px}.ending-text h1{font-size:40px;letter-spacing:3px;margin-bottom:28px}.ending-text p{font-size:32px;line-height:1.85}.ending-control{bottom:100px;min-height:100px;font-size:27px;padding:20px 28px}}
+.paused .ending-text>*{transition:none!important}
 
 </style>
 
@@ -67,7 +75,7 @@
     <button class="name" data-go="0" aria-label="返回开场">溯</button>
     <button class="back-button" id="back-button" hidden>返回上一页</button>
     <span class="chapter" id="chapter"></span>
-    <span class="page-count" id="page-count" aria-live="polite">01 / 09</span>
+    <span class="page-count" id="page-count" aria-live="polite">01 / 10</span>
   </header>
 
   <div class="cross-scene" id="cross-scene" aria-hidden="true">
@@ -129,6 +137,7 @@
         <button style="--x:36.5%;--y:66%" data-go="7"><span>五</span>雷点</button>
         <button style="--x:63.5%;--y:66%" data-go="8"><span>六</span>其他</button>
       </nav>
+      <button class="end-entry" data-go="9" aria-label="END，进入结尾">END</button>
       <div class="narration narration-directory"><button class="narration-text" id="narration-2" aria-label="显示完整旁白"><span class="typed" aria-hidden="true"></span><span class="sr-only">…？这都是什么 算了 都试试看吧</span></button><p class="quiet-hint">点击板块，横向进入</p></div>
     </section>
 
@@ -182,10 +191,28 @@
         <a href="https://www.kdocs.cn/l/cpNnmfFvAgfH" target="_blank" rel="noopener noreferrer"><span class="doc-number">05</span><span>板评</span><span class="doc-action">打开文档</span></a>
       </nav><button class="return" data-go="2">返回上一页</button>
     </section>
+    <section class="scene ending" id="ending" aria-label="第十章，结尾" inert>
+      <div class="ending-shade" aria-hidden="true"></div>
+      <div class="ending-text" id="ending-text">
+        <h1>“把我的爱人还给我”</h1>
+        <p>在这种莫名感到孤独的时刻，</p>
+        <p>我总是会有些想你，</p>
+        <p>就好像我现在终于有资格去想念你怀念你，</p>
+        <p>我想念你陪在我身边的感觉，</p>
+        <p>想念你注视我灵魂的感觉，</p>
+        <p>想念你不是现在的你的感觉,</p>
+        <p>我可以肆无忌惮的分享我们的理想，</p>
+        <p>虽然我从未和你大谈特谈这些，但我知道，你是最理解我最支持我的人，</p>
+        <p>我总在这种时刻，感到孤独和难受。</p>
+        <p class="ending-last">把我的爱人还给我。</p>
+        <p class="ending-last">把我的爱人还给我。</p>
+      </div>
+      <button class="ending-control" id="ending-control">显示全文</button>
+    </section>
   </div>
   <button class="motion-toggle" id="motion-toggle" aria-pressed="false" title="暂停或开启动态效果">暂停动态</button>
 </main>
-<noscript><div class="no-script">请启用 JavaScript 查看九页互动资料。<a href="https://www.kdocs.cn/l/cmYuJkYR8P2Y">查看随笔</a></div></noscript>
+<noscript><div class="no-script">请启用 JavaScript 查看十页互动资料。<a href="https://www.kdocs.cn/l/cmYuJkYR8P2Y">查看随笔</a></div></noscript>
 <script>
 (() => {
   'use strict';
@@ -197,8 +224,10 @@
   const motionToggle = document.querySelector('#motion-toggle');
   const backButton = document.querySelector('#back-button');
   const viewportSize = document.querySelector('#viewport-size');
+  const endingLines = [...document.querySelector('#ending-text').children];
+  const endingControl = document.querySelector('#ending-control');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const titles = ['', '', '', '虚恋', '病恋', '树洞', '喜点', '雷点 / 须知', '其他'];
+  const titles = ['', '', '', '虚恋', '病恋', '树洞', '喜点', '雷点 / 须知', '其他', 'END'];
   const narratives = [
     '我到了一个奇怪的地方，这里凭空出现了一扇巨大的窗户。',
     '神像上似乎刻画着一些文字 触碰的时候有许多灰尘',
@@ -213,6 +242,43 @@
   let paused = reduced.matches;
   let portrait = false;
   let inputStart = null;
+  let endingTimer = null;
+  let endingComplete = false;
+  let endingReturn = 2;
+
+  function finishEnding() {
+    clearTimeout(endingTimer);
+    endingLines.forEach(line => line.classList.add('revealed'));
+    endingComplete = true;
+    endingControl.textContent = '重看结尾';
+  }
+
+  function startEnding() {
+    clearTimeout(endingTimer);
+    endingComplete = false;
+    endingControl.textContent = '显示全文';
+    endingLines.forEach(line => line.classList.remove('revealed'));
+    if (paused || reduced.matches) { finishEnding(); return; }
+    let cursor = 0;
+    function reveal() {
+      if (current !== 9) return;
+      if (document.hidden) { endingTimer = setTimeout(reveal, 250); return; }
+      endingLines[cursor].classList.add('revealed');
+      cursor += 1;
+      if (cursor === endingLines.length) {
+        endingComplete = true;
+        endingControl.textContent = '重看结尾';
+      } else {
+        endingTimer = setTimeout(reveal, cursor === 1 || cursor >= 10 ? 1800 : 1250);
+      }
+    }
+    endingTimer = setTimeout(reveal, 900);
+  }
+  endingControl.addEventListener('click', () => endingComplete ? startEnding() : finishEnding());
+
+  function previousPage() {
+    return current === 9 ? endingReturn : current > 2 ? 2 : current - 1;
+  }
 
   function restoreViewport() {
     world.scrollLeft = 0;
@@ -293,7 +359,10 @@
     clearTimeout(turnTimer);
     clearTimeout(choiceTimer);
     clearTimeout(cleanupTimer);
+    clearTimeout(endingTimer);
+    typing = false;
     const oldIndex = current;
+    if (index === 9 && oldIndex !== 9 && animate) endingReturn = oldIndex;
     const direction = index >= oldIndex ? 1 : -1;
     scenes.forEach((scene, i) => {
       scene.classList.remove('enter-left', 'exit-left', 'exit-right');
@@ -331,16 +400,22 @@
     cross.classList.toggle('hub', index === 2);
     world.classList.toggle('story', index < 2);
     chapter.textContent = titles[index];
-    pageCount.textContent = String(index + 1).padStart(2, '0') + ' / 09';
+    pageCount.textContent = String(index + 1).padStart(2, '0') + ' / ' + String(scenes.length).padStart(2, '0');
     document.title = index <= 2 ? '溯 · 蓝色圣堂' : '溯 · ' + titles[index];
     backButton.hidden = index === 0;
     if (updateHash && location.hash !== '#' + incoming.id) history.pushState(null, '', '#' + incoming.id);
     startNarration(index);
+    if (index === 9) startEnding();
     restoreViewport();
     requestAnimationFrame(restoreViewport);
   }
 
   function goDelta(delta) {
+    if (current === 9) {
+      if (delta < 0) show(endingReturn);
+      else if (!endingComplete) finishEnding();
+      return;
+    }
     if (typing) { finishNarration(); return; }
     if (current < 2) { if (delta > 0) show(current + 1); else if (current > 0) show(current - 1); return; }
     if (current === 2) { if (delta > 0) show(3); else show(1); return; }
@@ -351,13 +426,13 @@
   document.querySelectorAll('[data-go]').forEach(button => {
     button.addEventListener('click', () => show(Number(button.dataset.go)));
   });
-  backButton.addEventListener('click', () => show(current > 2 ? 2 : current - 1));
+  backButton.addEventListener('click', () => show(previousPage()));
   document.querySelectorAll('.narration-text').forEach(button => button.addEventListener('click', finishNarration));
   document.addEventListener('keydown', event => {
     if (event.altKey || event.ctrlKey || event.metaKey) return;
     if (event.key === 'ArrowRight') { event.preventDefault(); goDelta(1); }
     if (event.key === 'ArrowLeft') { event.preventDefault(); goDelta(-1); }
-    if (event.key === 'Escape' && current > 2) show(2);
+    if (event.key === 'Escape' && current > 2) show(previousPage());
   });
 
   world.addEventListener('pointerdown', event => {
@@ -394,6 +469,7 @@
     motionToggle.setAttribute('aria-pressed', String(paused));
     motionToggle.textContent = paused ? '开启动效' : '暂停动态';
     if (paused && typing) finishNarration();
+    if (paused && current === 9) finishEnding();
   }
   motionToggle.addEventListener('click', () => setMotion(!paused));
   reduced.addEventListener('change', event => setMotion(event.matches));
